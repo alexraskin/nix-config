@@ -70,6 +70,8 @@
       flush-dns-cache = "sudo killall -HUP mDNSResponder";
       fast = "networkQuality -v";
 
+      tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale";
+
       tf = "terraform";
       tfdocs = "terraform-docs markdown table --output-file README.md --output-mode inject .";
       tflock = "terraform providers lock -platform=darwin_arm64 -platform=linux_amd64 -platform=darwin_amd64";
