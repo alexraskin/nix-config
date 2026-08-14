@@ -7,6 +7,7 @@
 {
   imports = [
     ./macos-defaults.nix
+    ./custom-dock.nix
     ./homebrew.nix
     ./aerospace.nix
     ./home-manager.nix
