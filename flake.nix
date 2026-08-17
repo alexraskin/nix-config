@@ -32,9 +32,6 @@
         ] (system: f nixpkgs.legacyPackages.${system});
     in
     {
-      # One entry per machine. The attribute name is what you pass to
-      # `darwin-rebuild --flake .#<name>`, and it also names the host's
-      # directory under hosts/.
       darwinConfigurations = {
         mba = mkDarwin "mba" {
           system = "aarch64-darwin";

@@ -8,6 +8,7 @@
   imports = [
     ./packages.nix
     ./dotfiles.nix
+    ./wallpaper.nix
     ./apps
   ];
 

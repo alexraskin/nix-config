@@ -28,6 +28,7 @@ home/                      user level, shared by every machine
   default.nix              entry point + the local.configDir option
   packages.nix             CLI tools from nixpkgs
   dotfiles.nix             out-of-store symlinks
+  wallpaper.nix            desktop picture (macOS)
   apps/                    per-app config; default.nix imports each module
     git/  mise/  zsh/  p10k/  ghostty/  claude/
 bin/                       scripts that can't be expressed in nix
@@ -41,7 +42,7 @@ The split that matters: **`modules/` is what every machine of that platform gets
 curl -fsSL https://raw.githubusercontent.com/alexraskin/nix-config/main/bin/install.sh | bash
 ```
 
-Installs Xcode Command Line Tools and Nix, clones this repo to `~/nix-config`, and runs the first activation. Everything else comes from the flake. Pass a host name to bootstrap a machine other than `mba` (`bash -s -- <host>` when piping). `bin/wallpaper.sh` sets the desktop picture and screensaver separately — nix-darwin has no clean option for either.
+Installs Xcode Command Line Tools and Nix, clones this repo to `~/nix-config`, and runs the first activation. Everything else comes from the flake. Pass a host name to bootstrap a machine other than `mba` (`bash -s -- <host>` when piping).
 
 The clone path is not arbitrary: `local.configDir` in `home/default.nix` defaults to `~/nix-config`, and both the out-of-store symlinks and the rebuild aliases are built from it. Clone somewhere else and you have to override that option.
 

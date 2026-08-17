@@ -66,8 +66,6 @@ in
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
 
-    # share is home-manager's default but not what ~/.zshrc did before, and
-    # SHARE_HISTORY conflicts with INC_APPEND_HISTORY_TIME below.
     history = {
       size = 100000;
       save = 100000;
@@ -102,8 +100,6 @@ in
     shellAliases = commonAliases // lib.optionalAttrs isDarwin darwinAliases;
 
     initContent = lib.mkMerge [
-      # Anything that may need console input has to precede the p10k instant
-      # prompt, and the instant prompt has to precede everything else.
       (lib.mkOrder 500 ''
         if [[ -f ~/.zshrc.local ]]; then
           source ~/.zshrc.local

@@ -48,4 +48,3 @@ sudo "$NIX" --extra-experimental-features 'nix-command flakes' \
   run nix-darwin/master#darwin-rebuild -- switch --flake "$FLAKE"
 
 echo "Done! Open a new terminal session to load your shell config."
-echo "Optional: bin/wallpaper.sh sets the desktop picture + screensaver."
