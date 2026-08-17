@@ -29,9 +29,6 @@ jobs:
 
       - name: flake metadata
         run: nix flake check --no-build
-
-  # The host list comes from the flake itself, so adding a machine to
-  # flake.nix is all it takes to get it tested.
   discover:
     name: discover hosts
     runs-on: ubuntu-latest
@@ -50,10 +47,6 @@ jobs:
             echo "darwin=$(nix eval --json .#darwinConfigurations --apply "$names")"
             echo "nixos=$(nix eval --json .#nixosConfigurations --apply "$names")"
           } >> "$GITHUB_OUTPUT"
-
-  # Evaluation is cheap and cross-platform: a Linux runner can instantiate a
-  # macOS system without building it. This is what catches typos, bad option
-  # names, and files that were never `git add`ed.
   eval:
     name: eval ${{ matrix.host }}
     needs: discover
@@ -67,8 +60,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/nix-installer-action@main
 
-      # home-manager is a darwin module here, so the user profile is part of
-      # this closure — one eval covers both halves.
       - name: instantiate system
         run: nix eval --raw .#darwinConfigurations.${{ matrix.host }}.config.system.build.toplevel.drvPath
 
@@ -84,10 +75,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/nix-installer-action@main
-
-      # Same thing `darwin-rebuild build --flake .#<host>` does locally. It
-      # builds the activation scripts; it never runs them, so no macOS
-      # defaults are written and Homebrew is never invoked.
       - name: build system closure
         run: nix build --print-build-logs .#darwinConfigurations.${{ matrix.host }}.config.system.build.toplevel
 

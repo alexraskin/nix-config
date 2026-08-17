@@ -1,7 +1,7 @@
 { pkgs, lib, ... }:
 let
   wallpaper = pkgs.fetchurl {
-    url = "https://cdn.alexraskin.com/wallpapers/wp16126074-dragon-anime-4k-wallpapers.jpg";
+    url = "https://cdn.alexraskin.com/wallpapers/mbawp.jpg";
     hash = "sha256-mt/4yPoAc6C6++fL0eQKGqIzNt2mgblgGvPlgfKLPrM=";
   };
 
