@@ -3,7 +3,15 @@ name: CI
 on:
   push:
     branches: [main]
+    paths:
+      - '**.nix'
+      - 'flake.lock'
+      - '.github/workflows/ci.yml'
   pull_request:
+    paths:
+      - '**.nix'
+      - 'flake.lock'
+      - '.github/workflows/ci.yml'
   workflow_dispatch:
 
 concurrency:
