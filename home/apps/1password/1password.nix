@@ -13,8 +13,6 @@ let
       "/opt/1Password/op-ssh-sign";
 in
 {
-  # Point ssh at the 1Password agent instead of ssh-agent, so keys never
-  # leave the vault. Requires Settings > Developer > "Use the SSH agent".
   home.sessionVariables.SSH_AUTH_SOCK =
     if isDarwin then
       "${config.home.homeDirectory}/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
