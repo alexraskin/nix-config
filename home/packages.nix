@@ -1,7 +1,8 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
-  home = {
-    packages = with pkgs; [
+  home.packages =
+    with pkgs;
+    [
       curl
       wget
       htop
@@ -13,8 +14,8 @@
       mise
       yt-dlp
       ffmpeg
-
+    ]
+    ++ lib.optionals stdenv.isDarwin [
       xcode-install
     ];
-  };
 }

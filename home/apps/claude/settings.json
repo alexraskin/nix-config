@@ -1,0 +1,22 @@
+{
+  "attribution": {
+    "commit": "false",
+    "pr": "false",
+    "sessionUrl": false
+  },
+  "includeCoAuthoredBy": false,
+  "model": "opus",
+  "extraKnownMarketplaces": {
+    "unifi-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "sirkirby/unifi-mcp"
+      }
+    }
+  },
+  "tui": "fullscreen",
+  "theme": "dark-daltonized",
+  "enabledPlugins": {
+    "unifi-network@unifi-plugins": true
+  }
+}

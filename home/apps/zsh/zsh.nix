@@ -1,4 +1,64 @@
-{ pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  primaryUser,
+  currentSystemName,
+  ...
+}:
+let
+  inherit (pkgs.stdenv) isDarwin;
+
+  cfgDir = config.local.configDir;
+  flake = "path:${cfgDir}#${currentSystemName}";
+
+  systemsAttr = if isDarwin then "darwinConfigurations" else "nixosConfigurations";
+  rebuild = if isDarwin then "darwin-rebuild" else "nixos-rebuild";
+  hmPackage = "path:${cfgDir}#${systemsAttr}.${currentSystemName}.config.home-manager.users.${primaryUser}.home.activationPackage";
+
+  commonAliases = {
+    c = "claude";
+
+    nix-switch = "sudo ${rebuild} switch --flake ${flake}";
+    hm-switch = "\"$(nix build --no-link --print-out-paths '${hmPackage}')/activate\"";
+
+    g = "git";
+    gst = "git status";
+    gpb = "git push -u origin $(git branch --show-current)";
+
+    ff = "fastfetch";
+
+    l = "ls -AF";
+    ll = "ls -lh";
+    la = "ls -A";
+
+    ".." = "cd ..";
+    "..." = "cd ../..";
+    "...." = "cd ../../..";
+
+    docker-killall = "docker ps | tail -n +2 | cut -f1 -d' ' | xargs docker kill";
+    docker-cleanup = "docker ps -a | cut -f1 -d' ' | tail -n +2 | xargs docker rm";
+    docker-exec-latest = "docker exec -ti $(docker ps --latest --quiet) bash";
+
+    tf = "terraform";
+    tfdocs = "terraform-docs markdown table --output-file README.md --output-mode inject .";
+    tflock = "terraform providers lock -platform=darwin_arm64 -platform=linux_amd64 -platform=darwin_amd64";
+
+    rip = "${cfgDir}/bin/rip-with-ffmpeg.sh";
+    rip-yt = "${cfgDir}/bin/rip-yt.sh";
+    fwd = "${cfgDir}/bin/forward.sh";
+  };
+
+  darwinAliases = {
+    router_ip = "route -n get default -ifscope en0 | awk '/gateway/ { print $2 }'";
+    flush-dns-cache = "sudo killall -HUP mDNSResponder";
+    fast = "networkQuality -v";
+
+    tailscale = "/Applications/Tailscale.app/Contents/MacOS/Tailscale";
+
+    code = "zed";
+  };
+in
 {
   programs.zsh = {
     enable = true;
@@ -39,49 +99,7 @@
       }
     ];
 
-    shellAliases = {
-      c = "claude";
-
-      nix-switch = "sudo /nix/var/nix/profiles/default/bin/nix --extra-experimental-features 'nix-command flakes' run nix-darwin/master#darwin-rebuild -- switch --flake path:/Users/alex/.dotfiles#mba";
-
-      # Apply only the home-manager half — no sudo, no system changes. Enough
-      # for anything under apps/ or home/dotfiles.nix; not for hosts/.
-      hm-switch = "\"$(nix build --no-link --print-out-paths 'path:/Users/alex/.dotfiles#darwinConfigurations.mba.config.home-manager.users.alex.home.activationPackage')/activate\"";
-
-      g = "git";
-      gst = "git status";
-      gpb = "git push -u origin $(git branch --show-current)";
-
-      ff = "fastfetch";
-
-      l = "ls -AF";
-      ll = "ls -lh";
-      la = "ls -A";
-
-      ".." = "cd ..";
-      "..." = "cd ../..";
-      "...." = "cd ../../..";
-
-      docker-killall = "docker ps | tail -n +2 | cut -f1 -d' ' | xargs docker kill";
-      docker-cleanup = "docker ps -a | cut -f1 -d' ' | tail -n +2 | xargs docker rm";
-      docker-exec-latest = "docker exec -ti $(docker ps --latest --quiet) bash";
-
-      router_ip = "route -n get default -ifscope en0 | awk '/gateway/ { print $2 }'";
-      flush-dns-cache = "sudo killall -HUP mDNSResponder";
-      fast = "networkQuality -v";
-
-      tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale";
-
-      tf = "terraform";
-      tfdocs = "terraform-docs markdown table --output-file README.md --output-mode inject .";
-      tflock = "terraform providers lock -platform=darwin_arm64 -platform=linux_amd64 -platform=darwin_amd64";
-
-      rip = "$HOME/.dotfiles/bin/rip-with-ffmpeg.sh";
-      rip-yt = "$HOME/.dotfiles/bin/rip-yt.sh";
-      fwd = "$HOME/.dotfiles/bin/forward.sh";
-
-      code = "zed";
-    };
+    shellAliases = commonAliases // lib.optionalAttrs isDarwin darwinAliases;
 
     initContent = lib.mkMerge [
       # Anything that may need console input has to precede the p10k instant
@@ -96,13 +114,13 @@
         fi
       '')
 
-      ''
+      (lib.optionalString isDarwin ''
         # Homebrew
         eval "$(/opt/homebrew/bin/brew shellenv)"
         export HOMEBREW_NO_ENV_HINTS=1
+      '')
 
-        # 1pass keys
-        export ANTHROPIC_API_KEY=$(op read "op://Private/ata-api-key/credential" 2>/dev/null)
+      ''
         export GITHUB_TOKEN=$(op read "op://Private/GitHub/github-token" 2>/dev/null)
 
         # go

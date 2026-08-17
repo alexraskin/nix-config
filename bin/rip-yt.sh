@@ -31,4 +31,4 @@ mkdir -p "$OUTPUT_DIR"
 yt-dlp -f "bestvideo[ext=mp4][vcodec^=avc1]+bestaudio[ext=m4a]/best[ext=mp4]" \
   --merge-output-format mp4 \
   -o "$OUTPUT_DIR/%(title)s.%(ext)s" \
-  --cookies-from-browser chrome "$1"
+  --cookies-from-browser chrome "$URL"

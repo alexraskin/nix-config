@@ -1,0 +1,108 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+
+      - name: nixfmt
+        run: git ls-files -z '*.nix' | xargs -0 nix run .#formatter.x86_64-linux -- --check
+
+      - name: shellcheck
+        run: git ls-files -z 'bin/*.sh' | xargs -0 nix run nixpkgs#shellcheck --
+
+      - name: flake metadata
+        run: nix flake check --no-build
+
+  # The host list comes from the flake itself, so adding a machine to
+  # flake.nix is all it takes to get it tested.
+  discover:
+    name: discover hosts
+    runs-on: ubuntu-latest
+    outputs:
+      darwin: ${{ steps.hosts.outputs.darwin }}
+      nixos: ${{ steps.hosts.outputs.nixos }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+
+      - id: hosts
+        run: |
+          # shellcheck disable=SC2016  # a nix expression, ${n} must stay literal
+          names='cfgs: map (n: { host = n; system = cfgs.${n}.pkgs.stdenv.hostPlatform.system; }) (builtins.attrNames cfgs)'
+          {
+            echo "darwin=$(nix eval --json .#darwinConfigurations --apply "$names")"
+            echo "nixos=$(nix eval --json .#nixosConfigurations --apply "$names")"
+          } >> "$GITHUB_OUTPUT"
+
+  # Evaluation is cheap and cross-platform: a Linux runner can instantiate a
+  # macOS system without building it. This is what catches typos, bad option
+  # names, and files that were never `git add`ed.
+  eval:
+    name: eval ${{ matrix.host }}
+    needs: discover
+    if: needs.discover.outputs.darwin != '[]'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.discover.outputs.darwin) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+
+      # home-manager is a darwin module here, so the user profile is part of
+      # this closure — one eval covers both halves.
+      - name: instantiate system
+        run: nix eval --raw .#darwinConfigurations.${{ matrix.host }}.config.system.build.toplevel.drvPath
+
+  build-darwin:
+    name: build ${{ matrix.host }}
+    needs: [lint, discover]
+    if: needs.discover.outputs.darwin != '[]'
+    runs-on: ${{ matrix.system == 'aarch64-darwin' && 'macos-latest' || 'macos-13' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.discover.outputs.darwin) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+
+      # Same thing `darwin-rebuild build --flake .#<host>` does locally. It
+      # builds the activation scripts; it never runs them, so no macOS
+      # defaults are written and Homebrew is never invoked.
+      - name: build system closure
+        run: nix build --print-build-logs .#darwinConfigurations.${{ matrix.host }}.config.system.build.toplevel
+
+  build-nixos:
+    name: build ${{ matrix.host }}
+    needs: [lint, discover]
+    if: needs.discover.outputs.nixos != '[]'
+    runs-on: ${{ matrix.system == 'aarch64-linux' && 'ubuntu-24.04-arm' || 'ubuntu-latest' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.discover.outputs.nixos) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+
+      - name: build system closure
+        run: nix build --print-build-logs .#nixosConfigurations.${{ matrix.host }}.config.system.build.toplevel
