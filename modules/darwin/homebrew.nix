@@ -38,7 +38,6 @@
       "google-chrome"
 
       # media
-      "plex"
       "spotify"
 
       # fonts
