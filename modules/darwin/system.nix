@@ -5,13 +5,7 @@
   ...
 }:
 {
-  imports = [
-    ./macos-defaults.nix
-    ./custom-dock.nix
-    ./homebrew.nix
-    ./aerospace.nix
-    ./home-manager.nix
-  ];
+  system.stateVersion = 6;
 
   networking = {
     computerName = hostname;

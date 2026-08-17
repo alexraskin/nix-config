@@ -1,6 +1,6 @@
 { config, ... }:
 let
-  apps = "${config.home.homeDirectory}/.dotfiles/apps";
+  apps = "${config.local.configDir}/home/apps";
   link = path: config.lib.file.mkOutOfStoreSymlink "${apps}/${path}";
 in
 {

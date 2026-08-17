@@ -5,7 +5,7 @@ if [[ -z $1 ]]; then
   exit
 fi
 output_name="video.mp4"
-if [[ ! -z $2 ]]; then
+if [[ -n $2 ]]; then
   output_name=$2
 fi
-ffmpeg -i $1 -c copy -bsf:a aac_adtstoasc $output_name
+ffmpeg -i "$1" -c copy -bsf:a aac_adtstoasc "$output_name"

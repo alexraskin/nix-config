@@ -2,6 +2,7 @@
   inputs,
   self,
   primaryUser,
+  currentSystemName,
   ...
 }:
 {
@@ -13,13 +14,14 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     backupFileExtension = "mise-bak";
-    users.${primaryUser} = {
-      imports = [
-        ../../home
-      ];
-    };
+    users.${primaryUser}.imports = [ ../../home ];
     extraSpecialArgs = {
-      inherit inputs self primaryUser;
+      inherit
+        inputs
+        self
+        primaryUser
+        currentSystemName
+        ;
     };
   };
 }

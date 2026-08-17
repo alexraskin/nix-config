@@ -1,5 +1,6 @@
 {
-  description = "My system configuration";
+  description = "alexraskin's system configuration — macOS (nix-darwin) and NixOS";
+
   inputs = {
     # monorepo w/ recipes ("derivations")
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
@@ -17,15 +18,40 @@
   };
 
   outputs =
-    { self, ... }@inputs:
+    { self, nixpkgs, ... }@inputs:
     let
-      mkSystem = import ./lib/mkSystem.nix { inherit inputs self; };
+      inherit (import ./lib { inherit inputs self; }) mkDarwin mkNixos;
+
+      forAllSystems =
+        f:
+        nixpkgs.lib.genAttrs [
+          "aarch64-darwin"
+          "x86_64-darwin"
+          "aarch64-linux"
+          "x86_64-linux"
+        ] (system: f nixpkgs.legacyPackages.${system});
     in
     {
-      darwinConfigurations."mba" = mkSystem "mba" {
-        system = "aarch64-darwin";
-        user = "alex";
-        hostname = "alexs-mba";
+      # One entry per machine. The attribute name is what you pass to
+      # `darwin-rebuild --flake .#<name>`, and it also names the host's
+      # directory under hosts/.
+      darwinConfigurations = {
+        mba = mkDarwin "mba" {
+          system = "aarch64-darwin";
+          user = "alex";
+          hostname = "alexs-mba";
+        };
       };
+
+      # Same shape for Linux boxes, e.g.
+      #   nixos = mkNixos "nixos" {
+      #     system = "x86_64-linux";
+      #     user = "alex";
+      #     hostname = "nixos";
+      #   };
+      # which expects hosts/nixos/{default.nix,hardware-configuration.nix}.
+      nixosConfigurations = { };
+
+      formatter = forAllSystems (pkgs: pkgs.nixfmt);
     };
 }

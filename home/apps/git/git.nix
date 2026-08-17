@@ -1,4 +1,12 @@
-{ ... }:
+{ pkgs, ... }:
+let
+  # 1Password ships the SSH signing helper at a different path per platform.
+  opSshSign =
+    if pkgs.stdenv.isDarwin then
+      "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+    else
+      "/opt/1Password/op-ssh-sign";
+in
 {
   programs.git = {
     enable = true;
@@ -50,7 +58,7 @@
       };
       gpg = {
         format = "ssh";
-        ssh.program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
+        ssh.program = opSshSign;
       };
       commit.gpgsign = true;
       pull.rebase = true;

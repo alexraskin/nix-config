@@ -4,10 +4,14 @@
     enable = true;
     enableZshIntegration = true;
 
-    globalConfig.settings = {
-      experimental = true;
-      verbose = false;
-      auto_install = true;
+    globalConfig = {
+      settings = {
+        experimental = true;
+        verbose = false;
+        auto_install = true;
+      };
+
+      tools.uv = "latest";
     };
   };
 

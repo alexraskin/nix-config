@@ -1,6 +1,7 @@
 { self, ... }:
 {
   nix = {
+    enable = true;
     settings = {
       experimental-features = [
         "nix-command"
@@ -10,13 +11,11 @@
       # disabled due to https://github.com/NixOS/nix/issues/7273
       # auto-optimise-store = true;
     };
-    enable = true;
   };
 
   nixpkgs.config.allowUnfree = true;
 
-  system = {
-    stateVersion = 6;
-    configurationRevision = self.rev or self.dirtyRev or null;
-  };
+  # Stamps the flake revision onto the built system, so `darwin-version` /
+  # `nixos-version` reports the commit it came from.
+  system.configurationRevision = self.rev or self.dirtyRev or null;
 }
