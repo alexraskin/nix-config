@@ -18,7 +18,19 @@
     enable = true;
 
     onActivation = {
-      autoUpdate = true;
+      # Must stay false while masApps is non-empty. With auto-update on, brew
+      # updates and then re-execs itself through bin/brew's "filter the user
+      # environment" step, which resets PATH to git + /usr/bin:/bin:/usr/sbin:/sbin.
+      # HOMEBREW_PATH becomes that filtered PATH, so `which("mas")` — which brew
+      # resolves against it — comes up empty, brew decides mas isn't installed,
+      # `brew install mas` reports it already is, and every app dies with
+      # "Unable to install <app> app. mas installation failed."
+      #
+      # Disabling it puts HOMEBREW_NO_AUTO_UPDATE=1 on the activation command,
+      # skipping the re-exec so /opt/homebrew/bin survives and mas resolves.
+      # Formula metadata then only refreshes when you run `brew update`.
+      autoUpdate = false;
+
       upgrade = true;
       cleanup = "zap";
     };
@@ -66,12 +78,6 @@
       "Xcode" = 497799835;
       "Infuse" = 1136220934;
       "Gifski" = 1351639930;
-
-      # "Plezy: Media Server Client" = 6754315964;
-      #   Left out on purpose: 6754315964 is an iOS/iPadOS app, not a Mac App
-      #   Store app. It only runs on Apple Silicon via the "iPhone & iPad
-      #   Apps" tab, which `mas` cannot install — adding it fails the switch.
-      #   Install it from the App Store by hand.
     };
   };
 }

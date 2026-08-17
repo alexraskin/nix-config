@@ -8,6 +8,7 @@
     tree
     ripgrep
     jq
+    plezy
 
     mise
     yt-dlp
