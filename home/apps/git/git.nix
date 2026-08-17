@@ -1,13 +1,7 @@
-{ pkgs, ... }:
-let
-  # 1Password ships the SSH signing helper at a different path per platform.
-  opSshSign =
-    if pkgs.stdenv.isDarwin then
-      "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
-    else
-      "/opt/1Password/op-ssh-sign";
-in
+{ ... }:
 {
+  # Commit signing lives in apps/1password: format, helper, and gpgsign are
+  # all properties of the 1Password agent, not of git.
   programs.git = {
     enable = true;
 
@@ -56,11 +50,6 @@ in
         defaultBranch = "main";
         templateDir = "~/.git-templates";
       };
-      gpg = {
-        format = "ssh";
-        ssh.program = opSshSign;
-      };
-      commit.gpgsign = true;
       pull.rebase = true;
       github.user = "alexraskin";
     };

@@ -8,8 +8,4 @@ in
     ".p10k.zsh".source = link "p10k/.p10k.zsh";
     ".claude/settings.json".source = link "claude/settings.json";
   };
-
-  xdg.configFile = {
-    "ghostty/config".source = link "ghostty/config";
-  };
 }

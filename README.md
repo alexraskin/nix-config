@@ -28,10 +28,10 @@ home/                      user level, shared by every machine
   default.nix              entry point + the local.configDir option
   packages.nix             CLI tools from nixpkgs
   scripts.nix              shell scripts built with writeShellApplication
-  dotfiles.nix             out-of-store symlinks
+  dotfiles.nix             out-of-store symlinks (p10k, claude)
   wallpaper.nix            desktop picture (macOS)
   apps/                    per-app config; default.nix imports each module
-    git/  mise/  zsh/  p10k/  ghostty/  claude/
+    1password/  git/  mise/  zsh/  p10k/  ghostty/  claude/
 bin/                       install.sh, the one script that runs before nix exists
 ```
 
