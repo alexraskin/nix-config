@@ -7,7 +7,6 @@
     tree
     ripgrep
     jq
-    gh
 
     mise
     yt-dlp
