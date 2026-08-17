@@ -56,7 +56,8 @@
     ];
     taps = [ ];
     # masApps = {
-    #   "Tailscale" = 1475387142;
+    # "Tailscale" = 1475387142;
+    # "Second Clock" = 6450279539;
     # "WhatsApp Messenger" = 310633997;
     # "Menu World Time" = 1446377255;
     # "Flycut" = 442160987;

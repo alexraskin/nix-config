@@ -2,7 +2,7 @@
 {
   imports = [
     ./system.nix
-    ./macos-defaults.nix
+    ./macos
     ./homebrew.nix
     ./aerospace.nix
     ./home-manager.nix

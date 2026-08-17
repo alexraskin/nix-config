@@ -14,8 +14,6 @@
 
   system.primaryUser = primaryUser;
 
-  security.pam.services.sudo_local.touchIdAuth = true;
-
   programs.zsh.enable = true;
 
   users.users.${primaryUser} = {
