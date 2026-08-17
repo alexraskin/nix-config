@@ -22,6 +22,5 @@
     ];
   };
 
-  # Pin this per host if a machine is installed from an older release.
   system.stateVersion = "25.05";
 }

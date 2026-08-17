@@ -27,11 +27,12 @@ hosts/                     one directory per machine, named for its flake attr
 home/                      user level, shared by every machine
   default.nix              entry point + the local.configDir option
   packages.nix             CLI tools from nixpkgs
+  scripts.nix              shell scripts built with writeShellApplication
   dotfiles.nix             out-of-store symlinks
   wallpaper.nix            desktop picture (macOS)
   apps/                    per-app config; default.nix imports each module
     git/  mise/  zsh/  p10k/  ghostty/  claude/
-bin/                       scripts that can't be expressed in nix
+bin/                       install.sh, the one script that runs before nix exists
 ```
 
 The split that matters: **`modules/` is what every machine of that platform gets, `hosts/<name>/` is what only one machine gets.** Both halves are system level. `home/` is user level and platform-agnostic — the few macOS-only bits inside it are guarded with `pkgs.stdenv.isDarwin`.

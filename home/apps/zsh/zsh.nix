@@ -44,9 +44,6 @@ let
     tfdocs = "terraform-docs markdown table --output-file README.md --output-mode inject .";
     tflock = "terraform providers lock -platform=darwin_arm64 -platform=linux_amd64 -platform=darwin_amd64";
 
-    rip = "${cfgDir}/bin/rip-with-ffmpeg.sh";
-    rip-yt = "${cfgDir}/bin/rip-yt.sh";
-    fwd = "${cfgDir}/bin/forward.sh";
   };
 
   darwinAliases = {
