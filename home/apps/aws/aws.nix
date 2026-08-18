@@ -4,7 +4,7 @@
     enable = true;
 
     settings.default = {
-      region = "us-east-1";
+      region = "us-west-2";
       output = "json";
     };
   };

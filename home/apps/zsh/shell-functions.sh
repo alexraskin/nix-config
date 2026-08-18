@@ -106,8 +106,13 @@ awsupload() {
   fi
 
   local BUCKET_NAME=assets-raskin-private
-  local REGION=us-east-1
   local PUBLIC_HOST=            # e.g. download.example.com; blank keeps the S3 host
+
+  # Must match the bucket's actual region: a presigned URL signed for the wrong
+  # one comes back as PermanentRedirect. Exported so the CLI uses it too rather
+  # than falling back to ~/.aws/config.
+  local -x AWS_DEFAULT_REGION=us-west-2
+  local REGION="$AWS_DEFAULT_REGION"
 
   local AGE_IDENTITY="op://Private/Main 1password SSH Key/private key"
   local SECRETS="$HOME/nix-config/secrets/aws.env.age"
