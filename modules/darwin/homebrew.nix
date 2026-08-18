@@ -62,8 +62,6 @@
       "Flycut" = 442160987;
       "Passepartout" = 1433648537;
       "Yubico Authenticator" = 1497506650;
-      "Xcode" = 497799835;
-      "Infuse" = 1136220934;
       "Gifski" = 1351639930;
     };
   };
