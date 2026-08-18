@@ -12,7 +12,7 @@ let
   '';
 in
 {
-  config = lib.mkIf pkgs.stdenv.isDarwin {
+  config = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
     home.packages = [ setWallpaper ];
 
     home.activation.setWallpaper = lib.hm.dag.entryAfter [ "writeBoundary" ] ''

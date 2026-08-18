@@ -109,7 +109,7 @@ awsupload() {
   local REGION=us-east-1
   local PUBLIC_HOST=            # e.g. download.example.com; blank keeps the S3 host
 
-  local AGE_IDENTITY="op://Private/SSH Key/private key"
+  local AGE_IDENTITY="op://Private/Main 1password SSH Key/private key"
   local SECRETS="$HOME/nix-config/secrets/aws.env.age"
 
   if [[ -z "$AWS_ACCESS_KEY_ID" ]]; then

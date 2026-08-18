@@ -7,7 +7,7 @@
   ...
 }:
 let
-  inherit (pkgs.stdenv) isDarwin;
+  inherit (pkgs.stdenv.hostPlatform) isDarwin;
 
   cfgDir = config.local.configDir;
   flake = "path:${cfgDir}#${currentSystemName}";
