@@ -4,8 +4,8 @@
     ./system.nix
     ./macos
     ./homebrew.nix
+    ./nix-gc.nix
     ./aerospace.nix
-    ./sketchybar.nix
     ./home-manager.nix
   ];
 }

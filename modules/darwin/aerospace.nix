@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 {
   services.aerospace = {
     enable = true;
@@ -14,12 +14,6 @@
       default-root-container-orientation = "auto";
 
       on-focused-monitor-changed = [ "move-mouse monitor-force-center" ];
-
-      exec-on-workspace-change = [
-        "/bin/bash"
-        "-c"
-        "${pkgs.sketchybar}/bin/sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE"
-      ];
 
       automatically-unhide-macos-hidden-apps = true;
 
