@@ -7,9 +7,6 @@
     # Inert until that option actually has servers declared.
     enableMcpIntegration = true;
 
-    # Written to ~/.claude/settings.json, read-only in the store. Changes made
-    # from inside Claude Code (theme, model, plugin toggles) will not stick —
-    # they belong here now.
     settings = {
       model = "opus";
       theme = "dark-daltonized";

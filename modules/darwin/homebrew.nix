@@ -32,7 +32,6 @@
       # dev
       "ghostty"
       "zed"
-      "claude-code"
 
       # browsers
       "google-chrome"
