@@ -30,8 +30,7 @@
         inner.vertical = 0;
         outer.left = 0;
         outer.bottom = 0;
-        # Leave room for sketchybar, which replaces the hidden macOS menu bar.
-        outer.top = 32;
+        outer.top = 0;
         outer.right = 0;
       };
 
