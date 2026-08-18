@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
   services.aerospace = {
     enable = true;
@@ -15,6 +15,12 @@
 
       on-focused-monitor-changed = [ "move-mouse monitor-force-center" ];
 
+      exec-on-workspace-change = [
+        "/bin/bash"
+        "-c"
+        "${pkgs.sketchybar}/bin/sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE"
+      ];
+
       automatically-unhide-macos-hidden-apps = true;
 
       key-mapping.preset = "qwerty";
@@ -24,7 +30,8 @@
         inner.vertical = 0;
         outer.left = 0;
         outer.bottom = 0;
-        outer.top = 0;
+        # Leave room for sketchybar, which replaces the hidden macOS menu bar.
+        outer.top = 32;
         outer.right = 0;
       };
 

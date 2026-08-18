@@ -5,6 +5,10 @@
 
     defaults = {
       NSGlobalDomain = {
+        # sketchybar is the menu bar now; the real one stays hidden until you
+        # push the cursor into the top edge.
+        _HIHideMenuBar = true;
+
         # No window open/close animations.
         NSAutomaticWindowAnimationsEnabled = false;
 
