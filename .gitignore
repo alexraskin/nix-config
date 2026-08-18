@@ -2,3 +2,6 @@ result
 result-*
 .DS_Store
 .claude/settings.local.json
+
+secrets/*
+!secrets/*.age

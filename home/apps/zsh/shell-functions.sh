@@ -73,3 +73,67 @@ gh-pr() {
     echo "not in a git repo"
   fi
 }
+
+# Upload a file to S3 and print a presigned URL.
+awsupload() {
+  if [[ -z "$1" ]]; then
+    echo "usage: awsupload <file> [expiry: 1h, 2h, ..., 1d, ..., 7d]" >&2
+    return 1
+  fi
+
+  if [[ ! -f "$1" ]]; then
+    echo "awsupload: not a file: $1" >&2
+    return 1
+  fi
+
+  local EXPIRY="${2:-1h}"
+  local EXPIRY_SECONDS
+  if [[ "$EXPIRY" =~ '^([0-9]+)([hd])$' ]]; then
+    local num="${match[1]}" unit="${match[2]}"
+    if [[ "$unit" == "h" ]]; then
+      EXPIRY_SECONDS=$(( num * 3600 ))
+    else
+      # SigV4 presigned URLs cap out at 7 days.
+      if (( num < 1 || num > 7 )); then
+        echo "awsupload: days must be 1–7" >&2
+        return 1
+      fi
+      EXPIRY_SECONDS=$(( num * 86400 ))
+    fi
+  else
+    echo "awsupload: invalid expiry '$EXPIRY' (use e.g. 1h, 2h, 1d, 7d)" >&2
+    return 1
+  fi
+
+  local BUCKET_NAME=assets-raskin-private
+  local REGION=us-east-1
+  local PUBLIC_HOST=            # e.g. download.example.com; blank keeps the S3 host
+
+  local AGE_IDENTITY="op://Private/SSH Key/private key"
+  local SECRETS="$HOME/nix-config/secrets/aws.env.age"
+
+  if [[ -z "$AWS_ACCESS_KEY_ID" ]]; then
+    local -x AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY
+    local creds
+    if [[ ! -f "$SECRETS" ]]; then
+      echo "awsupload: missing $SECRETS" >&2
+      return 1
+    fi
+    creds=$(op read "$AGE_IDENTITY" | age -d -i /dev/stdin "$SECRETS") || return 1
+    eval "$creds"
+  fi
+
+  local FILENAME=$(basename "$1")
+
+  command aws s3 cp "$1" "s3://$BUCKET_NAME/$FILENAME" || return 1
+
+  local URL
+  URL=$(command aws s3 presign "s3://$BUCKET_NAME/$FILENAME" \
+        --expires-in "$EXPIRY_SECONDS") || return 1
+
+  if [[ -n "$PUBLIC_HOST" ]]; then
+    echo "${URL/$BUCKET_NAME.s3.$REGION.amazonaws.com/$PUBLIC_HOST}"
+  else
+    echo "$URL"
+  fi
+}
