@@ -114,8 +114,6 @@ in
       '')
 
       ''
-        export GITHUB_TOKEN=$(op read "op://Private/GitHub/github-token" 2>/dev/null)
-
         # go
         export PATH="$HOME/go/bin:$PATH"
 

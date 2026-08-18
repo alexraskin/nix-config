@@ -18,6 +18,7 @@ in
 
     settings = {
       theme = "Catppuccin Mocha";
+      background-opacity = 0.92;
       cursor-color = "#e6e6e6";
       cursor-text = "#1e1f29";
       cursor-style-blink = true;
@@ -42,6 +43,7 @@ in
     }
     // lib.optionalAttrs isDarwin {
       font-thicken = true;
+      background-blur = 20;
       macos-option-as-alt = true;
       macos-non-native-fullscreen = "padded-notch";
       macos-titlebar-style = "tabs";
