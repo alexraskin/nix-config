@@ -1,8 +1,8 @@
 { pkgs, lib, ... }:
 let
   wallpaper = pkgs.fetchurl {
-    url = "https://cdn.alexraskin.com/wallpapers/mbawp.jpg";
-    hash = "sha256-mt/4yPoAc6C6++fL0eQKGqIzNt2mgblgGvPlgfKLPrM=";
+    url = "https://misc-assets.raycast.com/wallpapers/loupe-mono-dark.heic";
+    hash = "sha256-MwvRU7U4tO6F1duxBrHLOd7F5Gnzv/zyiZkm5EFqkY4=";
   };
 
   setWallpaper = pkgs.writeShellScriptBin "set-wallpaper" ''
