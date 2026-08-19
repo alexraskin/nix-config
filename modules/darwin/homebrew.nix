@@ -52,8 +52,19 @@
     brews = [
       "mas"
       "fastfetch"
+
+      {
+        name = "rift";
+        start_service = true;
+        restart_service = "changed";
+      }
     ];
-    taps = [ ];
+    taps = [
+      {
+        name = "acsandmann/tap";
+        trusted = true;
+      }
+    ];
     masApps = {
       "Tailscale" = 1475387142;
       "Second Clock" = 6450279539;
