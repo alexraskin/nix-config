@@ -8,6 +8,7 @@
     ./git/git.nix
     ./kubernetes/kubernetes.nix
     ./mise/mise.nix
+    ./rift/rift.nix
     ./zsh/zsh.nix
   ];
 }

@@ -17,7 +17,7 @@ modules/                   system level (runs as root)
     system.nix             hostname, user, Touch ID, PATH
     macos-defaults.nix     Dock, Finder, keyboard
     homebrew.nix           nix-homebrew + brews, casks, masApps
-    aerospace.nix          window manager + its launchd agent
+    rift.nix               window manager (brew) + its launchd agent
     home-manager.nix       home-manager wiring
   nixos/                   every Linux box gets these
     default.nix            hostname, user, shell
@@ -33,7 +33,7 @@ home/                      user level, shared by every machine
   dotfiles.nix             out-of-store symlinks (p10k, claude)
   wallpaper.nix            desktop picture (macOS)
   apps/                    per-app config; default.nix imports each module
-    1password/  git/  mise/  zsh/  p10k/  ghostty/  claude/
+    1password/  git/  mise/  zsh/  p10k/  ghostty/  claude/  rift/
 bin/                       install.sh, the one script that runs before nix exists
 ```
 

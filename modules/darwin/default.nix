@@ -5,7 +5,7 @@
     ./macos
     ./homebrew.nix
     ./nix-gc.nix
-    ./aerospace.nix
+    ./rift.nix
     ./home-manager.nix
   ];
 }
