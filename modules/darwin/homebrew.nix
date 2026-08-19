@@ -32,6 +32,7 @@
       # dev
       "ghostty"
       "zed"
+      "podman-desktop"
 
       # browsers
       "google-chrome"
@@ -51,6 +52,7 @@
     brews = [
       "mas"
       "fastfetch"
+      "podman"
 
       {
         name = "rift";
