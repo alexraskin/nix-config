@@ -32,7 +32,7 @@
       # dev
       "ghostty"
       "zed"
-      "podman-desktop"
+      "docker-desktop"
 
       # browsers
       "google-chrome"
@@ -52,7 +52,6 @@
     brews = [
       "mas"
       "fastfetch"
-      "podman"
 
       {
         name = "rift";
