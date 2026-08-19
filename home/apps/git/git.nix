@@ -52,6 +52,7 @@
       };
       pull.rebase = true;
       github.user = "alexraskin";
+      url."git@github.com:".insteadOf = "https://github.com/";
     };
   };
 }
