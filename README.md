@@ -4,7 +4,7 @@
 
 System configuration for my machines, managed declaratively. One flake describes every machine: packages, Homebrew casks, macOS defaults, git config, and dotfiles.
 
-![ff](https://cdn.alexraskin.com/shottr/SCR-20260817-kav.png "ff")
+![ff](https://cdn.alexraskin.com/shottr/SCR-20260818-svg.png "ff")
 
 ## Layout
 
