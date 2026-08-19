@@ -43,7 +43,6 @@
       "font-b612"
       "font-iosevka"
 
-      # other
       "1password"
       "1password-cli"
       "wifiman"
