@@ -141,42 +141,89 @@ let
 
     modifier_combinations.comb1 = "Alt + Shift";
 
-    keys = switchKeys // moveKeys // {
-      "Alt + Z" = "toggle_space_activated";
-      "comb1 + R" = "reload_config";
+    keys =
+      switchKeys
+      // moveKeys
+      // {
+        "Alt + Z" = "toggle_space_activated";
+        "comb1 + R" = "reload_config";
 
-      "Alt + H" = { move_focus = "left"; };
-      "Alt + J" = { move_focus = "down"; };
-      "Alt + K" = { move_focus = "up"; };
-      "Alt + L" = { move_focus = "right"; };
+        "Alt + H" = {
+          move_focus = "left";
+        };
+        "Alt + J" = {
+          move_focus = "down";
+        };
+        "Alt + K" = {
+          move_focus = "up";
+        };
+        "Alt + L" = {
+          move_focus = "right";
+        };
 
-      "comb1 + H" = { move_node = "left"; };
-      "comb1 + J" = { move_node = "down"; };
-      "comb1 + K" = { move_node = "up"; };
-      "comb1 + L" = { move_node = "right"; };
+        "comb1 + H" = {
+          move_node = "left";
+        };
+        "comb1 + J" = {
+          move_node = "down";
+        };
+        "comb1 + K" = {
+          move_node = "up";
+        };
+        "comb1 + L" = {
+          move_node = "right";
+        };
 
-      "Alt + Ctrl + H" = { join_window = "left"; };
-      "Alt + Ctrl + J" = { join_window = "down"; };
-      "Alt + Ctrl + K" = { join_window = "up"; };
-      "Alt + Ctrl + L" = { join_window = "right"; };
-      "Alt + Ctrl + E" = "unjoin_windows";
+        "Alt + Ctrl + H" = {
+          join_window = "left";
+        };
+        "Alt + Ctrl + J" = {
+          join_window = "down";
+        };
+        "Alt + Ctrl + K" = {
+          join_window = "up";
+        };
+        "Alt + Ctrl + L" = {
+          join_window = "right";
+        };
+        "Alt + Ctrl + E" = "unjoin_windows";
 
-      "Alt + Slash" = "toggle_orientation";
-      "Alt + Comma" = "toggle_stack";
+        "Alt + Slash" = "toggle_orientation";
+        "Alt + Comma" = "toggle_stack";
 
-      "Alt + Minus" = { resize_window_shrink = "smart"; };
-      "Alt + Equal" = { resize_window_grow = "smart"; };
+        "Alt + Minus" = {
+          resize_window_shrink = "smart";
+        };
+        "Alt + Equal" = {
+          resize_window_grow = "smart";
+        };
 
-      "comb1 + F" = "toggle_fullscreen";
-      "comb1 + Space" = "toggle_window_floating";
+        "comb1 + F" = "toggle_fullscreen";
+        "comb1 + Space" = "toggle_window_floating";
 
-      "Alt + Tab" = "switch_to_last_workspace";
+        "Alt + Tab" = "switch_to_last_workspace";
 
-      "Alt + Ctrl + Left" = { move_window_to_display = { selector = "left"; }; };
-      "Alt + Ctrl + Right" = { move_window_to_display = { selector = "right"; }; };
-      "Alt + Ctrl + Up" = { move_window_to_display = { selector = "up"; }; };
-      "Alt + Ctrl + Down" = { move_window_to_display = { selector = "down"; }; };
-    };
+        "Alt + Ctrl + Left" = {
+          move_window_to_display = {
+            selector = "left";
+          };
+        };
+        "Alt + Ctrl + Right" = {
+          move_window_to_display = {
+            selector = "right";
+          };
+        };
+        "Alt + Ctrl + Up" = {
+          move_window_to_display = {
+            selector = "up";
+          };
+        };
+        "Alt + Ctrl + Down" = {
+          move_window_to_display = {
+            selector = "down";
+          };
+        };
+      };
   };
 in
 {
