@@ -74,6 +74,7 @@
       "Yubico Authenticator" = 1497506650;
       "Gifski" = 1351639930;
       "Xcode" = 497799835;
+      "Apple Developer" =640199958;
     };
   };
 }
