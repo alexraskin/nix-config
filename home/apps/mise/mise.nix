@@ -11,6 +11,7 @@
         auto_install = true;
       };
 
+      tools.node = "lts";
       tools.uv = "latest";
     };
   };
