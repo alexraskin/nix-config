@@ -15,6 +15,9 @@
 
     # declarative homebrew management
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
+
+    codex-cli-nix.url = "github:sadjow/codex-cli-nix";
+    codex-cli-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =

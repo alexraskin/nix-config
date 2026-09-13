@@ -4,6 +4,7 @@
     ./1password/1password.nix
     ./aws/aws.nix
     ./claude/claude.nix
+    ./codex/codex.nix
     ./ghostty/ghostty.nix
     ./git/git.nix
     ./kubernetes/kubernetes.nix

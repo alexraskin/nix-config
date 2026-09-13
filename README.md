@@ -33,7 +33,7 @@ home/                      user level, shared by every machine
   dotfiles.nix             out-of-store symlinks (p10k, claude)
   wallpaper.nix            desktop picture (macOS)
   apps/                    per-app config; default.nix imports each module
-    1password/  git/  mise/  zsh/  p10k/  ghostty/  claude/  rift/
+    1password/  git/  mise/  zsh/  p10k/  ghostty/  claude/  codex/  rift/
 bin/                       install.sh, the one script that runs before nix exists
 ```
 
