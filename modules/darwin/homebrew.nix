@@ -73,6 +73,7 @@
       "Passepartout" = 1433648537;
       "Yubico Authenticator" = 1497506650;
       "Gifski" = 1351639930;
+      "Xcode" = 497799835;
     };
   };
 }
