@@ -114,6 +114,7 @@ in
       '')
 
       ''
+        export ASC_APP_ID="6811625216"
         # go
         export PATH="$HOME/go/bin:$PATH"
 

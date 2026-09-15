@@ -28,6 +28,7 @@
 
     casks = [
       "shottr"
+      "icon-composer"
 
       # dev
       "ghostty"
@@ -52,6 +53,7 @@
     brews = [
       "mas"
       "fastfetch"
+      "asc"
 
       {
         name = "rift";
@@ -75,6 +77,7 @@
       "Gifski" = 1351639930;
       "Xcode" = 497799835;
       "Apple Developer" =640199958;
+      "TestFlight" = 899247664;
     };
   };
 }
