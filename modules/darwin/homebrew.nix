@@ -54,6 +54,7 @@
       "mas"
       "fastfetch"
       "asc"
+      "gh"
 
       {
         name = "rift";
