@@ -12,6 +12,7 @@
     ./opencode/opencode.nix
     ./pi/pi.nix
     ./rift/rift.nix
+    ./vscode/vscode.nix
     ./zsh/zsh.nix
   ];
 }

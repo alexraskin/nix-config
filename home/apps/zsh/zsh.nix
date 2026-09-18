@@ -52,8 +52,6 @@ let
     fast = "networkQuality -v";
 
     tailscale = "/Applications/Tailscale.app/Contents/MacOS/Tailscale";
-
-    code = "zed";
   };
 in
 {
