@@ -2,12 +2,14 @@
 {
   programs.vscode = {
     enable = true;
-    package = pkgs.vscodium;
+    package = pkgs.vscode;
 
     mutableExtensionsDir = false;
-    enableUpdateCheck = false;
-    enableExtensionUpdateCheck = false;
+    profiles.default = {
+      enableUpdateCheck = false;
+      enableExtensionUpdateCheck = false;
+    };
   };
 
-  home.file."Applications/VSCodium.app".source = "${pkgs.vscodium}/Applications/VSCodium.app";
+  home.file."Applications/Visual Studio Code.app".source = "${pkgs.vscode}/Applications/Visual Studio Code.app";
 }

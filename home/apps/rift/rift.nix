@@ -105,7 +105,7 @@ let
           workspace = ws.B;
         }
         {
-          app_id = "com.vscodium";
+          app_id = "com.microsoft.VSCode";
           workspace = ws."1";
         }
         {
