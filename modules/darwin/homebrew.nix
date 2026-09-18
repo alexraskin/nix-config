@@ -32,7 +32,6 @@
 
       # dev
       "ghostty"
-      "zed"
       "docker-desktop"
 
       # browsers

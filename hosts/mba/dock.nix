@@ -8,7 +8,7 @@
       "/Applications/WhatsApp.app"
       "/System/Applications/Messages.app"
       "/Applications/1Password.app"
-      "/Applications/Zed.app"
+      "/Users/alex/Applications/VSCodium.app"
       "/Applications/Ghostty.app"
       "/Applications/Obsidian.app"
       "/System/Applications/Mail.app"

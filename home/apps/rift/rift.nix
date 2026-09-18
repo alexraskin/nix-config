@@ -105,7 +105,7 @@ let
           workspace = ws.B;
         }
         {
-          app_id = "dev.zed.Zed";
+          app_id = "com.vscodium";
           workspace = ws."1";
         }
         {
