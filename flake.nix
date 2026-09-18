@@ -18,6 +18,12 @@
 
     codex-cli-nix.url = "github:sadjow/codex-cli-nix";
     codex-cli-nix.inputs.nixpkgs.follows = "nixpkgs";
+
+    opencode.url = "github:anomalyco/opencode/dev";
+    opencode.inputs.nixpkgs.follows = "nixpkgs";
+
+    # pi coding agent; keeps its own pinned nixpkgs for the bun2nix build
+    pi.url = "github:lukasl-dev/pi.nix";
   };
 
   outputs =
