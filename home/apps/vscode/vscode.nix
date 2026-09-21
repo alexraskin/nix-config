@@ -26,6 +26,7 @@ in
           astro-build.astro-vscode
           bbenoist.nix
           catppuccin.catppuccin-vsc
+          hashicorp.terraform
           llvm-vs-code-extensions.lldb-dap
           ms-azuretools.vscode-containers
           ms-azuretools.vscode-docker
