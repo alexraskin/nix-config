@@ -52,6 +52,8 @@ let
     fast = "networkQuality -v";
 
     tailscale = "/Applications/Tailscale.app/Contents/MacOS/Tailscale";
+
+    rift-restart = "brew services restart rift";
   };
 in
 {
