@@ -2,14 +2,11 @@
   description = "alexraskin's system configuration — macOS (nix-darwin) and NixOS";
 
   inputs = {
-    # monorepo w/ recipes ("derivations")
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
-    # manages configs
     home-manager.url = "github:nix-community/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    # system-level software and settings (macOS)
     darwin.url = "github:lnl7/nix-darwin";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -19,10 +16,6 @@
     codex-cli-nix.url = "github:sadjow/codex-cli-nix";
     codex-cli-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    opencode.url = "github:anomalyco/opencode/dev";
-    opencode.inputs.nixpkgs.follows = "nixpkgs";
-
-    # pi coding agent; keeps its own pinned nixpkgs for the bun2nix build
     pi.url = "github:lukasl-dev/pi.nix";
   };
 
