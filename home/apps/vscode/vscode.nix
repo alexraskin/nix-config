@@ -23,6 +23,7 @@ in
 
       extensions =
         (with pkgs.vscode-extensions; [
+          astro-build.astro-vscode
           bbenoist.nix
           catppuccin.catppuccin-vsc
           llvm-vs-code-extensions.lldb-dap
