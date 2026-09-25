@@ -1,7 +1,5 @@
 { pkgs, ... }:
 let
-  # Not in nixpkgs yet (nixpkgs still carries the old sswg.swift-lang), so pull
-  # the VSIX straight from the marketplace.
   swift-vscode = pkgs.vscode-utils.extensionsFromVscodeMarketplace [
     {
       name = "swift-vscode";
@@ -35,12 +33,12 @@ in
 
       userSettings = {
         "workbench.colorTheme" = "Catppuccin Macchiato";
-
         "chat.disableAIFeatures" = true;
         "chat.commandCenter.enabled" = false;
         "editor.inlineSuggest.enabled" = false;
         "github.copilot.enable"."*" = false;
         "github.copilot.nextEditSuggestions.enabled" = false;
+        "git.autofetch" = true;
       };
     };
   };
