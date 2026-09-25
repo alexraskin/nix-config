@@ -10,7 +10,6 @@
       "/Applications/1Password.app"
       "/Users/alex/Applications/Visual Studio Code.app"
       "/Applications/Ghostty.app"
-      "/Applications/Obsidian.app"
       "/System/Applications/Mail.app"
       "/Applications/Spotify.app"
     ];
