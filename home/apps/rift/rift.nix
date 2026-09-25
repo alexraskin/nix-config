@@ -109,8 +109,8 @@ let
           workspace = ws."1";
         }
         {
-          app_id = "org.alacritty";
-          workspace = ws.T;
+          app_id = "com.apple.dt.Xcode";
+          workspace = ws."6";
         }
         {
           app_id = "com.mitchellh.ghostty";
@@ -130,6 +130,10 @@ let
         }
         {
           app_id = "net.whatsapp.WhatsApp";
+          workspace = ws."2";
+        }
+        {
+          app_id = "com.apple.MobileSMS";
           workspace = ws."2";
         }
         {
