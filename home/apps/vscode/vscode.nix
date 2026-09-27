@@ -32,7 +32,7 @@ in
         ++ swift-vscode;
 
       userSettings = {
-        "workbench.colorTheme" = "Catppuccin Macchiato";
+        "workbench.colorTheme" = "Catppuccin Mocha";
         "chat.disableAIFeatures" = true;
         "chat.commandCenter.enabled" = false;
         "editor.inlineSuggest.enabled" = false;
