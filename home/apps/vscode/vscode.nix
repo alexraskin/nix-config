@@ -41,6 +41,7 @@ in
         "git.autofetch" = true;
         "explorer.confirmDelete" = false;
         "git.confirmSync" = false;
+        "explorer.confirmPasteNative" = false;
       };
     };
   };
