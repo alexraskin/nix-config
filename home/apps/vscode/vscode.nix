@@ -39,6 +39,7 @@ in
         "github.copilot.enable"."*" = false;
         "github.copilot.nextEditSuggestions.enabled" = false;
         "git.autofetch" = true;
+        "explorer.confirmDelete" = false;
       };
     };
   };
