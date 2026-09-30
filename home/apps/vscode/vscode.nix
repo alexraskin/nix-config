@@ -24,12 +24,16 @@ in
           astro-build.astro-vscode
           bbenoist.nix
           catppuccin.catppuccin-vsc
+          catppuccin.catppuccin-vsc-icons
           hashicorp.terraform
           llvm-vs-code-extensions.lldb-dap
           ms-azuretools.vscode-containers
           ms-azuretools.vscode-docker
           ms-python.python
           golang.go
+          redhat.vscode-yaml
+          ms-kubernetes-tools.vscode-kubernetes-tools
+          anthropic.claude-code
         ])
         ++ swift-vscode;
 
