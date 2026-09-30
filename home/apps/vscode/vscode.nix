@@ -28,6 +28,8 @@ in
           llvm-vs-code-extensions.lldb-dap
           ms-azuretools.vscode-containers
           ms-azuretools.vscode-docker
+          ms-python.python
+          golang.go
         ])
         ++ swift-vscode;
 
