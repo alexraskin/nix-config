@@ -40,6 +40,7 @@ in
         "github.copilot.nextEditSuggestions.enabled" = false;
         "git.autofetch" = true;
         "explorer.confirmDelete" = false;
+        "git.confirmSync" = false;
       };
     };
   };
