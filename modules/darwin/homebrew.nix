@@ -54,6 +54,7 @@
       "fastfetch"
       "asc"
       "gh"
+      "bruno"
 
       {
         name = "rift";
