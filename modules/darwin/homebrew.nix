@@ -33,6 +33,7 @@
       # dev
       "ghostty"
       "docker-desktop"
+      "bruno"
 
       # browsers
       "google-chrome"
@@ -54,7 +55,7 @@
       "fastfetch"
       "asc"
       "gh"
-      "bruno"
+      "mole"
 
       {
         name = "rift";
