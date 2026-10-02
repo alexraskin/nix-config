@@ -48,6 +48,7 @@ in
         "explorer.confirmDelete" = false;
         "git.confirmSync" = false;
         "explorer.confirmPasteNative" = false;
+        "redhat.telemetry.enabled" = false;
       };
     };
   };
