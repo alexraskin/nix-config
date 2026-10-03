@@ -49,6 +49,7 @@
       "1password-cli"
       "wifiman"
       "obsidian"
+      "macusb"
     ];
     brews = [
       "mas"
