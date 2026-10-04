@@ -14,7 +14,7 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     backupFileExtension = "hm-bak";
-    users.${primaryUser}.imports = [ ../../home ];
+    users.${primaryUser}.imports = [ ../../home/headless.nix ];
     extraSpecialArgs = {
       inherit
         inputs

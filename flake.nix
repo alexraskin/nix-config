@@ -42,14 +42,13 @@
         };
       };
 
-      # Same shape for Linux boxes, e.g.
-      #   nixos = mkNixos "nixos" {
-      #     system = "x86_64-linux";
-      #     user = "alex";
-      #     hostname = "nixos";
-      #   };
-      # which expects hosts/nixos/{default.nix,hardware-configuration.nix}.
-      nixosConfigurations = { };
+      nixosConfigurations = {
+        hhbox = mkNixos "hhbox" {
+          system = "x86_64-linux";
+          user = "alex";
+          hostname = "hhbox";
+        };
+      };
 
       formatter = forAllSystems (pkgs: pkgs.nixfmt);
     };
