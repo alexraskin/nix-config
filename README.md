@@ -2,120 +2,67 @@
 
 [![CI](https://github.com/alexraskin/nix-config/actions/workflows/ci.yml/badge.svg)](https://github.com/alexraskin/nix-config/actions/workflows/ci.yml)
 
-System configuration for my machines, managed declaratively. One flake describes every machine: packages, Homebrew casks, macOS defaults, git config, and dotfiles.
+My Mac and Linux boxes, all set up from one flake: packages, apps, macOS settings, dotfiles.
 
 ![ff](https://cdn.alexraskin.com/shottr/SCR-20260818-svg.png "ff")
+![ffnix](https://sadge.lol/ROaOqB.png "ffnix")
 
-## Layout
+## Machines
 
-```
-flake.nix                  inputs + one entry per machine
-lib/default.nix            mkDarwin / mkNixos host builders
-modules/                   system level (runs as root)
-  shared/nix.nix           nix + nixpkgs config, flake revision stamp
-  darwin/                  every Mac gets these
-    system.nix             hostname, user, Touch ID, PATH
-    macos-defaults.nix     Dock, Finder, keyboard
-    homebrew.nix           nix-homebrew + brews, casks, masApps
-    rift.nix               window manager (brew) + its launchd agent
-    home-manager.nix       home-manager wiring
-  nixos/                   every Linux box gets these
-    default.nix            hostname, user, shell
-    home-manager.nix       home-manager wiring
-hosts/                     one directory per machine, named for its flake attr
-  mba/
-    default.nix            host entry point
-    dock.nix               this machine's Dock
-home/                      user level, shared by every machine
-  default.nix              entry point + the local.configDir option
-  packages.nix             CLI tools from nixpkgs
-  scripts.nix              shell scripts built with writeShellApplication
-  dotfiles.nix             out-of-store symlinks (p10k, claude)
-  wallpaper.nix            desktop picture (macOS)
-  apps/                    per-app config; default.nix imports each module
-    1password/  git/  mise/  zsh/  p10k/  ghostty/  claude/  codex/  rift/
-bin/                       install.sh, the one script that runs before nix exists
+- `mba` — MacBook Air
+- `hhbox` — NixOS box running Plex and Syncthing
+- `nixcosmo` — NixOS box, Tailscale exit node
+
+## What's where
+
+```text
+flake.nix     the list of machines
+lib/          helpers that build a Mac or NixOS system
+modules/      stuff every Mac (darwin/) or every Linux box (nixos/) gets
+hosts/        stuff only one machine gets, one folder each
+home/         my user setup, shared everywhere: packages, shell, app configs
+bin/          install script for a fresh Mac
 ```
 
-The split that matters: **`modules/` is what every machine of that platform gets, `hosts/<name>/` is what only one machine gets.** Both halves are system level. `home/` is user level and platform-agnostic — the few macOS-only bits inside it are guarded with `pkgs.stdenv.isDarwin`.
-
-## Setup
+## New Mac
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/alexraskin/nix-config/main/bin/install.sh | bash
 ```
 
-Installs Xcode Command Line Tools and Nix, clones this repo to `~/nix-config`, and runs the first activation. Everything else comes from the flake. Pass a host name to bootstrap a machine other than `mba` (`bash -s -- <host>` when piping).
+Installs Nix, clones this repo to `~/nix-config`, and applies it. Keep it at that path; the dotfile links point there.
 
-The clone path is not arbitrary: `local.configDir` in `home/default.nix` defaults to `~/nix-config`, and both the out-of-store symlinks and the rebuild aliases are built from it. Clone somewhere else and you have to override that option.
-
-## Usage
+## Day to day
 
 ```bash
-cd ~/nix-config
-
-darwin-rebuild build --flake .#mba         # evaluate + build, change nothing
-sudo darwin-rebuild switch --flake .#mba   # build + activate  (alias: nix-switch)
-hm-switch                                  # home-manager half only, no sudo
-
-nix flake update                           # bump all inputs
-nix flake update nixpkgs                   # bump one
-nix fmt                                    # nixfmt the tree
+nix-switch            # rebuild and apply
+hm-switch             # just the home stuff, no sudo
+nix flake update      # update everything
+nix fmt -- **/*.nix   # format
 ```
-
-`nix-switch` and `hm-switch` are generated per machine — they already point at the right flake attribute and at `nixos-rebuild` instead of `darwin-rebuild` on Linux.
 
 ## Adding a machine
 
-1. `hosts/<name>/default.nix` — whatever is true of that machine only.
-2. An entry in `flake.nix`:
+1. Make `hosts/<name>/default.nix`. On Linux, also copy over the box's `/etc/nixos/hardware-configuration.nix` and import it.
+2. Add it to `flake.nix`:
 
-```nix
-darwinConfigurations.studio = mkDarwin "studio" {
-  system = "aarch64-darwin";
-  user = "alex";
-  hostname = "alexs-studio";
-};
-```
+   ```nix
+   <name> = mkNixos "<name>" {   # or mkDarwin
+     system = "x86_64-linux";
+     user = "alex";
+     hostname = "<name>";
+   };
+   ```
 
-The attribute name, the `mkDarwin` argument, and the directory under `hosts/` all have to match — that string is what `--flake .#<name>` selects and what `lib/default.nix` uses to find the host directory.
+   The name has to match the folder under `hosts/`.
+3. `git add` the new files, since the flake can't see untracked files.
 
-For Linux it's `nixosConfigurations.<name> = mkNixos "<name>" { … }`, and the host directory also needs a `hardware-configuration.nix` (generated by `nixos-generate-config`) imported from its `default.nix`.
+## Adding stuff
 
-Every module gets `hostname`, `primaryUser`, `currentSystemName`, `inputs`, and `self` through `specialArgs`, on both platforms.
-
-## Adding things
-
-**Config file** — put it in `home/apps/<app>/`, add a line to `home/dotfiles.nix`. These are out-of-store symlinks, so edits take effect without a rebuild.
-
-**Package** — `home/packages.nix` for CLI tools from nixpkgs, `modules/darwin/homebrew.nix` for GUI apps and brew-only formulae. For a cask only one machine should have, set `homebrew.casks` in `hosts/<name>/default.nix`; nix merges the lists.
-
-**App module** — `home/apps/<app>/<app>.nix`, imported from `home/apps/default.nix`.
-
-Then `nix-switch`.
-
-## Homebrew
-
-```bash
-brew search <name>       # find the exact cask/formula name
-brew bundle list --all   # what the flake declares (defaults to formulae only)
-brew bundle check        # is the system in sync?
-brew outdated            # what the next switch will upgrade
-mas search <name>        # App Store IDs for masApps
-```
+- **CLI tool:** `home/packages.nix`
+- **Mac app:** `modules/darwin/homebrew.nix`, or the host's `default.nix` for just one Mac
+- **App config:** `home/apps/<app>/`, then import it from `home/apps/default.nix`
 
 ## CI
 
-`.github/workflows/ci.yml` runs on every push and PR:
-
-| job | runner | what it does |
-| --- | --- | --- |
-| `lint` | ubuntu | `nixfmt --check`, `shellcheck bin/*.sh`, `nix flake check` |
-| `discover` | ubuntu | reads the host list out of the flake |
-| `eval` | ubuntu | instantiates each Mac's system closure — cheap, and cross-platform |
-| `build-darwin` | macos | actually builds each Mac's closure, same as `darwin-rebuild build` |
-| `build-nixos` | ubuntu | same for Linux hosts; skipped while there are none |
-
-The host matrix comes from `nix eval .#darwinConfigurations`, so adding a machine to `flake.nix` puts it under CI with no workflow edit. Building only ever produces the activation scripts — it never runs them, so no macOS defaults are written and Homebrew is never invoked.
-
-The `eval` job is the one that catches the common mistake: a new file that was never `git add`ed is invisible to the flake and fails there in seconds.
+Every push checks formatting and builds every machine in the flake. New machines get picked up automatically.
