@@ -17,6 +17,11 @@
     codex-cli-nix.inputs.nixpkgs.follows = "nixpkgs";
 
     pi.url = "github:lukasl-dev/pi.nix";
+
+    agenix.url = "github:ryantm/agenix";
+    agenix.inputs.nixpkgs.follows = "nixpkgs";
+    agenix.inputs.darwin.follows = "darwin";
+    agenix.inputs.home-manager.follows = "home-manager";
   };
 
   outputs =

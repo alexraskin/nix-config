@@ -5,3 +5,4 @@ result-*
 
 secrets/*
 !secrets/*.age
+!secrets/secrets.nix
