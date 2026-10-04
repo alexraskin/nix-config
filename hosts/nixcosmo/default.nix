@@ -1,12 +1,23 @@
-{ ... }:
+{ lib, ... }:
 {
   imports = [ ./hardware-configuration.nix ];
+
+  # installed with 26.05; modules/nixos defaults to 25.05
+  system.stateVersion = lib.mkForce "26.05";
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernel.sysctl."kernel.panic" = 10;
 
-  time.timeZone = "Europe/Berlin";
+  # 1TB WD HDD
+  fileSystems."/srv/data" = {
+    device = "/dev/disk/by-uuid/7810d48e-cf85-40f3-9beb-9d05b90274c5";
+    fsType = "ext4";
+    options = [ "nofail" ];
+  };
+  systemd.tmpfiles.rules = [ "d /srv/data 0755 alex users -" ];
+
+  time.timeZone = "America/Phoenix";
   networking.networkmanager.enable = true;
   services.journald.extraConfig = "SystemMaxUse=500M";
 
@@ -31,26 +42,6 @@
     ];
   };
   networking.firewall.trustedInterfaces = [ "tailscale0" ];
-
-  systemd.tmpfiles.rules = [
-    "d /srv/media 0755 alex users -"
-    "d /srv/media/movies 0755 alex users -"
-    "d /srv/media/tvshows 0755 alex users -"
-  ];
-
-  services.plex = {
-    enable = true;
-    openFirewall = true;
-  };
-
-  services.syncthing = {
-    enable = true;
-    user = "alex";
-    group = "users";
-    dataDir = "/srv/media";
-    configDir = "/home/alex/.config/syncthing";
-    guiAddress = "0.0.0.0:8384";
-  };
 
   nix.settings.trusted-users = [ "alex" ];
   security.sudo.wheelNeedsPassword = false;

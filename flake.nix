@@ -48,6 +48,12 @@
           user = "alex";
           hostname = "hhbox";
         };
+
+        nixcosmo = mkNixos "nixcosmo" {
+          system = "x86_64-linux";
+          user = "alex";
+          hostname = "nixcosmo";
+        };
       };
 
       formatter = forAllSystems (pkgs: pkgs.nixfmt);
