@@ -64,6 +64,8 @@ in
       environment = {
         BEASTHOST = "127.0.0.1";
         BEASTPORT = "30005";
+        # UI only allows RFC1918 clients; tailnet is 100.x. Firewall keeps 8754 tailnet-only.
+        BIND_INTERFACE = "0.0.0.0";
       };
       # host network so it reaches ultrafeeder's loopback beast port; web UI on :8754
       extraOptions = [ "--network=host" ];
