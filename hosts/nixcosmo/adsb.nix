@@ -22,6 +22,21 @@ in
     "d /var/lib/adsb/graphs1090 0755 root root -"
   ];
 
+  # https://nixcosmo.<tailnet>.ts.net -> tar1090/graphs1090 (tailnet only; Grafana links here)
+  systemd.services.tailscale-serve-adsb = {
+    after = [ "tailscaled.service" ];
+    wants = [ "tailscaled.service" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      # tailscaled may not be logged in yet at boot
+      Restart = "on-failure";
+      RestartSec = 10;
+    };
+    script = "${config.services.tailscale.package}/bin/tailscale serve --bg 8080";
+  };
+
   virtualisation.oci-containers.containers = {
     ultrafeeder = {
       image = "ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder:telegraf";
