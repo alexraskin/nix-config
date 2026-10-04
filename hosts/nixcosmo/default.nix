@@ -1,21 +1,10 @@
-{ lib, ... }:
+{ ... }:
 {
   imports = [ ./hardware-configuration.nix ];
-
-  # installed with 26.05; modules/nixos defaults to 25.05
-  system.stateVersion = lib.mkForce "26.05";
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernel.sysctl."kernel.panic" = 10;
-
-  # 1TB WD HDD
-  fileSystems."/srv/data" = {
-    device = "/dev/disk/by-uuid/7810d48e-cf85-40f3-9beb-9d05b90274c5";
-    fsType = "ext4";
-    options = [ "nofail" ];
-  };
-  systemd.tmpfiles.rules = [ "d /srv/data 0755 alex users -" ];
 
   time.timeZone = "America/Phoenix";
   networking.networkmanager.enable = true;

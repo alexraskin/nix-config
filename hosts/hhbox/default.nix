@@ -1,6 +1,9 @@
-{ ... }:
+{ lib, ... }:
 {
   imports = [ ./hardware-configuration.nix ];
+
+  # installed with 26.05; modules/nixos defaults to 25.05
+  system.stateVersion = lib.mkForce "26.05";
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -32,6 +35,12 @@
   };
   networking.firewall.trustedInterfaces = [ "tailscale0" ];
 
+  # 1TB WD HDD
+  fileSystems."/srv/media" = {
+    device = "/dev/disk/by-uuid/7810d48e-cf85-40f3-9beb-9d05b90274c5";
+    fsType = "ext4";
+    options = [ "nofail" ];
+  };
   systemd.tmpfiles.rules = [
     "d /srv/media 0755 alex users -"
     "d /srv/media/movies 0755 alex users -"
