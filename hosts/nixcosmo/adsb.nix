@@ -1,9 +1,3 @@
-# ADS-B feeder: same ultrafeeder + fr24feed images the old docker-compose box ran
-# (infrastructure/02-dev-server/adsb). Ports are unchanged so Prometheus/Gatus in
-# the cluster only need adsb-egress pointed at this box's tailnet IP.
-#
-# Location and FR24 key live in secrets/adsb.env.age (agenix, decrypted with the
-# host SSH key) as READSB_LAT=, READSB_LON=, FR24KEY= lines.
 { config, inputs, ... }:
 let
   envFile = config.age.secrets.adsb-env.path;
@@ -13,7 +7,6 @@ in
 
   age.secrets.adsb-env.file = ../../secrets/adsb.env.age;
 
-  # stock DVB driver grabs the RTL-SDR before readsb can
   boot.blacklistedKernelModules = [ "dvb_usb_rtl28xxu" ];
 
   systemd.tmpfiles.rules = [
@@ -22,7 +15,6 @@ in
     "d /var/lib/adsb/graphs1090 0755 root root -"
   ];
 
-  # https://nixcosmo.<tailnet>.ts.net -> tar1090/graphs1090 (tailnet only; Grafana links here)
   systemd.services.tailscale-serve-adsb = {
     after = [ "tailscaled.service" ];
     wants = [ "tailscaled.service" ];
@@ -30,7 +22,6 @@ in
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
-      # tailscaled may not be logged in yet at boot
       Restart = "on-failure";
       RestartSec = 10;
     };
@@ -79,10 +70,8 @@ in
       environment = {
         BEASTHOST = "127.0.0.1";
         BEASTPORT = "30005";
-        # UI only allows RFC1918 clients; tailnet is 100.x. Firewall keeps 8754 tailnet-only.
         BIND_INTERFACE = "0.0.0.0";
       };
-      # host network so it reaches ultrafeeder's loopback beast port; web UI on :8754
       extraOptions = [ "--network=host" ];
     };
   };
