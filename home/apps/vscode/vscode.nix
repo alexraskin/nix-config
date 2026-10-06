@@ -35,6 +35,7 @@ in
           ms-kubernetes-tools.vscode-kubernetes-tools
           anthropic.claude-code
           ms-vscode-remote.remote-ssh
+          ms-vscode.cpptools-extension-pack
         ])
         ++ swift-vscode;
 
