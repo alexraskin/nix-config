@@ -4,5 +4,9 @@ let
   nixcosmo = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFicGQoQvravbwMJD0r0RWhyxmzKpSu2u3Fx/schk5Gj";
 in
 {
-  "adsb.env.age".publicKeys = [ alex morpheus nixcosmo ];
+  "adsb.env.age".publicKeys = [
+    alex
+    morpheus
+    nixcosmo
+  ];
 }
