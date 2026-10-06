@@ -34,6 +34,7 @@ in
           redhat.vscode-yaml
           ms-kubernetes-tools.vscode-kubernetes-tools
           anthropic.claude-code
+          ms-vscode-remote.remote-ssh
         ])
         ++ swift-vscode;
 
