@@ -50,6 +50,22 @@ in
         "git.confirmSync" = false;
         "explorer.confirmPasteNative" = false;
         "redhat.telemetry.enabled" = false;
+        "yaml.disableSchemaDetection" = [
+          "**/docker-compose.yml"
+          "**/docker-compose.yaml"
+          "**/docker-compose.*.yml"
+          "**/docker-compose.*.yaml"
+          "**/compose.yml"
+          "**/compose.yaml"
+          "**/compose.*.yml"
+          "**/compose.*.yaml"
+          "**/.github/workflows/*.yml"
+          "**/.github/workflows/*.yaml"
+          "**/.gitea/workflows/*.yml"
+          "**/.gitea/workflows/*.yaml"
+          "**/.forgejo/workflows/*.yml"
+          "**/.forgejo/workflows/*.yaml"
+        ];
       };
     };
   };
