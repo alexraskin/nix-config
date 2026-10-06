@@ -14,7 +14,8 @@
       tools.node = "lts";
       tools.uv = "latest";
       tools.k9s = "latest";
-      tools.flux = "latest";
+      tools.flux2 = "latest";
+      tools.kustomize = "latest";
     };
   };
 
