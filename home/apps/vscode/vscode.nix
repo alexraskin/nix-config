@@ -36,6 +36,7 @@ in
           anthropic.claude-code
           ms-vscode-remote.remote-ssh
           ms-vscode.cpptools-extension-pack
+          tamasfe.even-better-toml
         ])
         ++ swift-vscode;
 
