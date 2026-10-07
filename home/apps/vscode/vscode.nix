@@ -54,6 +54,7 @@ in
         "explorer.confirmPasteNative" = false;
         "redhat.telemetry.enabled" = false;
         "workbench.startupEditor" = "none";
+        "explorer.confirmDragAndDrop" = false;
         "yaml.disableSchemaDetection" = [
           "**/docker-compose.yml"
           "**/docker-compose.yaml"
