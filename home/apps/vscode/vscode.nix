@@ -37,6 +37,7 @@ in
           ms-vscode-remote.remote-ssh
           ms-vscode.cpptools-extension-pack
           tamasfe.even-better-toml
+          ms-vscode.cmake-tools
         ])
         ++ swift-vscode;
 
