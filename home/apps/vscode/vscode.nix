@@ -52,6 +52,7 @@ in
         "git.confirmSync" = false;
         "explorer.confirmPasteNative" = false;
         "redhat.telemetry.enabled" = false;
+        "workbench.startupEditor" = "none";
         "yaml.disableSchemaDetection" = [
           "**/docker-compose.yml"
           "**/docker-compose.yaml"
