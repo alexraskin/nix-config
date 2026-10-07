@@ -60,7 +60,6 @@
       "cmake"
       "ninja"
       "dfu-util"
-      "python3"
       {
         name = "rift";
         start_service = true;
