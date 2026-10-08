@@ -39,7 +39,13 @@
         # shared environment variables
       };
 
-      file.".hushlogin".text = "";
+      file = {
+        ".hushlogin".text = "";
+
+        # hosts/mba/dock.nix pins this path, same as Visual Studio Code.
+        # linkApps only gives us ~/Applications/Home Manager Apps/Plezy.app.
+        "Applications/Plezy.app".source = "${pkgs.plezy}/Applications/Plezy.app";
+      };
     };
   };
 }

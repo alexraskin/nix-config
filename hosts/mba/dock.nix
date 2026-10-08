@@ -12,6 +12,7 @@
       "/Applications/Ghostty.app"
       "/System/Applications/Mail.app"
       "/Applications/Spotify.app"
+      "/Users/alex/Applications/Plezy.app"
     ];
   };
 }
