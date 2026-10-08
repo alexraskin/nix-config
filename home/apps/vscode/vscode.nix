@@ -38,6 +38,7 @@ in
           ms-vscode.cpptools-extension-pack
           tamasfe.even-better-toml
           ms-vscode.cmake-tools
+          ms-vscode-remote.remote-containers
         ])
         ++ swift-vscode;
 
