@@ -47,5 +47,12 @@
         "Applications/Plezy.app".source = "${pkgs.plezy}/Applications/Plezy.app";
       };
     };
+
+    home.activation.registerDarwinApps = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+      lsregister=/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister
+      if [ -x "$lsregister" ]; then
+        run "$lsregister" -f "$HOME/Applications/Plezy.app"
+      fi
+    '';
   };
 }
