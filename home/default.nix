@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   primaryUser,
   ...
 }:
@@ -27,6 +28,13 @@
     home = {
       username = primaryUser;
       stateVersion = "25.05";
+
+      # macOS-only GUI apps; home-manager symlinks the .app bundles into
+      # ~/Applications/Home Manager Apps. packages.nix is shared with the
+      # headless NixOS hosts, so these can't live there.
+      packages = with pkgs; [
+        plezy
+      ];
       sessionVariables = {
         # shared environment variables
       };
