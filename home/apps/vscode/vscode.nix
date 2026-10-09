@@ -56,6 +56,7 @@ in
         "redhat.telemetry.enabled" = false;
         "workbench.startupEditor" = "none";
         "explorer.confirmDragAndDrop" = false;
+        "files.autoSave" = "onFocusChange";
         "yaml.disableSchemaDetection" = [
           "**/docker-compose.yml"
           "**/docker-compose.yaml"
