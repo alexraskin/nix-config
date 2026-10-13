@@ -11,7 +11,7 @@
 
   time.timeZone = "America/Phoenix";
   networking.networkmanager.enable = true;
-  services.journald.extraConfig = "SystemMaxUse=500M";
+  services.journald.settings.Journal.SystemMaxUse = "500M";
 
   services.openssh = {
     enable = true;
