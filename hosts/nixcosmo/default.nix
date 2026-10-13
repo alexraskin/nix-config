@@ -34,6 +34,7 @@
     ];
   };
   networking.firewall.trustedInterfaces = [ "tailscale0" ];
+  systemd.services.tailscaled-set.serviceConfig.RemainAfterExit = true;
 
   nix.settings.trusted-users = [ "alex" ];
   security.sudo.wheelNeedsPassword = false;

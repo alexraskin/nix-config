@@ -42,6 +42,7 @@
     ];
   };
   networking.firewall.trustedInterfaces = [ "tailscale0" ];
+  systemd.services.tailscaled-set.serviceConfig.RemainAfterExit = true;
 
   # 1TB WD HDD
   fileSystems."/srv/media" = {
