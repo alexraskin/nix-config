@@ -4,8 +4,9 @@
 
 My Mac and Linux boxes, all set up from one flake: packages, apps, macOS settings, dotfiles.
 
-![ff](https://cdn.alexraskin.com/shottr/SCR-20260818-svg.png "ff")
-![ffnix](https://sadge.lol/ROaOqB.png "ffnix")
+![mac-screenshot](/images/mac.png "mac-screenshot")
+![hhbox-screenshot](/images/hhbox.png "hhbox-screenshot")
+![nixcosmo-screenshot](/images/nixcosmo.png "nixcosmo-screenshot")
 
 ## Machines
 
