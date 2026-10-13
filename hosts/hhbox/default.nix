@@ -1,6 +1,9 @@
 { lib, ... }:
 {
-  imports = [ ./hardware-configuration.nix ];
+  imports = [
+    ./hardware-configuration.nix
+    ./wifi.nix
+  ];
 
   # installed with 26.05; modules/nixos defaults to 25.05
   system.stateVersion = lib.mkForce "26.05";
@@ -11,7 +14,11 @@
 
   time.timeZone = "Europe/Berlin";
   networking.networkmanager.enable = true;
-  services.journald.extraConfig = "SystemMaxUse=500M";
+
+  hardware.enableRedistributableFirmware = true;
+  hardware.wirelessRegulatoryDatabase = true;
+  boot.extraModprobeConfig = "options cfg80211 ieee80211_regdom=DE";
+  services.journald.settings.Journal.SystemMaxUse = "500M";
 
   services.openssh = {
     enable = true;
