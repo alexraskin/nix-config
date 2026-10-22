@@ -15,4 +15,9 @@ in
     morpheus
     hhbox
   ];
+  "healthchecks.env.age".publicKeys = [
+    alex
+    morpheus
+    hhbox
+  ];
 }
