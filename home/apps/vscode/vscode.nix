@@ -57,6 +57,7 @@ in
         "workbench.startupEditor" = "none";
         "explorer.confirmDragAndDrop" = false;
         "files.autoSave" = "onFocusChange";
+        "go.toolsManagement.autoUpdate" = true;
         "yaml.disableSchemaDetection" = [
           "**/docker-compose.yml"
           "**/docker-compose.yaml"
