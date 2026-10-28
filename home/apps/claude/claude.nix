@@ -90,6 +90,21 @@ in
   programs.claude-code = {
     enable = true;
 
+    # The Bun-compiled binary ships its own CA store and fails with
+    # UNABLE_TO_GET_ISSUER_CERT_LOCALLY; settings.env doesn't reach its TLS
+    # context, so wrap the binary itself. version and meta are carried over
+    # because the home-manager module gates features on lib.getVersion.
+    package = pkgs.symlinkJoin {
+      pname = "claude-code-wrapped";
+      inherit (pkgs.claude-code) version meta;
+      paths = [ pkgs.claude-code ];
+      nativeBuildInputs = [ pkgs.makeWrapper ];
+      postBuild = ''
+        wrapProgram $out/bin/claude \
+          --set-default NODE_EXTRA_CA_CERTS /etc/ssl/cert.pem
+      '';
+    };
+
     # Pulls servers from programs.mcp.servers into Claude Code's MCP config.
     enableMcpIntegration = true;
 
