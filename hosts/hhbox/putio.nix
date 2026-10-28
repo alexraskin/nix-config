@@ -35,9 +35,11 @@ in
       after = [ "network-online.target" ];
       wants = [ "network-online.target" ];
       unitConfig.RequiresMountsFor = "/srv/media";
+      # don't let nixos-rebuild kill an in-progress download; the timer picks up the new unit next run
+      restartIfChanged = false;
       environment = {
         PUTIO_DEST = "/srv/media/${name}";
-        PUTIO_INCOMING = incoming;
+        PUTIO_INCOMING = "${incoming}/${name}";
         PUTIO_SORT_TV = if name == "tvshows" then "1" else "0";
       };
       serviceConfig = {

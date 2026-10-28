@@ -4,6 +4,10 @@
 seen="$STATE_DIRECTORY/seen"
 touch "$seen"
 
+# runs of the same feed never overlap, so anything left here is from an interrupted download
+rm -rf "$PUTIO_INCOMING"
+mkdir -p "$PUTIO_INCOMING"
+
 feed=$(curl -fsS -m 60 --retry 3 "$PUTIO_RSS_URL")
 # xmlstarlet exits 1 when nothing matches, i.e. an empty feed
 items=$(xmlstarlet sel -t -m '//item[enclosure/@url]' -v 'guid' -o $'\t' -v 'enclosure/@url' -n <<<"$feed" || true)
@@ -28,7 +32,7 @@ while IFS=$'\t' read -r guid url; do
   tmp=$(mktemp -d -p "$PUTIO_INCOMING")
   echo "downloading $key"
   # abort if throughput stays under 10KB/s for 5 minutes so a stalled transfer retries next run
-  if curl -fL --retry 5 --speed-limit 10240 --speed-time 300 \
+  if curl -fL --no-progress-meter --retry 5 --speed-limit 10240 --speed-time 300 \
     -J -O --output-dir "$tmp" "$url" </dev/null; then
     for f in "$tmp"/*; do
       target=$(target_for "$f")
