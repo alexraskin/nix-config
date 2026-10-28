@@ -4,6 +4,7 @@
     ./hardware-configuration.nix
     ./wifi.nix
     ./healthchecks.nix
+    ./putio.nix
   ];
 
   # installed with 26.05; modules/nixos defaults to 25.05

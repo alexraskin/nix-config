@@ -20,4 +20,9 @@ in
     morpheus
     hhbox
   ];
+  "putio.env.age".publicKeys = [
+    alex
+    morpheus
+    hhbox
+  ];
 }
