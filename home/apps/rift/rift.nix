@@ -98,7 +98,6 @@ let
       workspace_names = workspaceNames;
       workspace_rules = [ ];
 
-      # aerospace's on-window-detected
       app_rules = [
         {
           app_id = "com.google.Chrome";
@@ -113,7 +112,7 @@ let
           workspace = ws."6";
         }
         {
-          app_id = "com.mitchellh.ghostty";
+          app_id = "com.superlogical.rex";
           workspace = ws.T;
         }
         {

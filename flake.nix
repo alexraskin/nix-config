@@ -10,13 +10,10 @@
     darwin.url = "github:lnl7/nix-darwin";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
 
-    # declarative homebrew management
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
 
     codex-cli-nix.url = "github:sadjow/codex-cli-nix";
     codex-cli-nix.inputs.nixpkgs.follows = "nixpkgs";
-
-    pi.url = "github:lukasl-dev/pi.nix";
 
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
