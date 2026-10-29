@@ -9,6 +9,7 @@
     ./git/git.nix
     ./kubernetes/kubernetes.nix
     ./mise/mise.nix
+    ./rex/rex.nix
     ./rift/rift.nix
     ./vscode/vscode.nix
     ./zsh/zsh.nix

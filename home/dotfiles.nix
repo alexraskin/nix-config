@@ -7,4 +7,6 @@ in
   home.file = {
     ".p10k.zsh".source = link "p10k/.p10k.zsh";
   };
+
+  xdg.configFile."rex/init.lua".source = link "rex/init.lua";
 }
