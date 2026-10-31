@@ -40,6 +40,16 @@ backup() {
 
 # keep the mac awake ;)
 awake() {
+  local label=awake-indef
+  if [[ "$1" == "-t" && -n "$2" ]]; then
+    local h=$(( $2 / 3600 )) m=$(( $2 % 3600 / 60 )) s=$(( $2 % 60 ))
+    label=awake-
+    (( h )) && label+="${h}h"
+    (( m )) && label+="${m}m"
+    (( s )) && label+="${s}s"
+  fi
+  [[ -n "$REX_SESSION" ]] && rex session rename "$REX_SESSION" "$label" >/dev/null 2>&1
+
   if [[ "$1" == "-t" && -n "$2" ]]; then
     echo "☕ Caffeinated for $2 seconds"
     caffeinate -u -d -t "$2"
