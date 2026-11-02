@@ -58,6 +58,7 @@ in
         "explorer.confirmDragAndDrop" = false;
         "files.autoSave" = "onFocusChange";
         "go.toolsManagement.autoUpdate" = true;
+        "vs-kubernetes"."vs-kubernetes.crd-code-completion" = "enabled";
         "yaml.disableSchemaDetection" = [
           "**/docker-compose.yml"
           "**/docker-compose.yaml"
