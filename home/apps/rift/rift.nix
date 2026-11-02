@@ -120,6 +120,10 @@ let
           workspace = ws."4";
         }
         {
+          app_id = "com.meta.endo";
+          workspace = ws."4";
+        }
+        {
           app_id = "com.apple.finder";
           workspace = ws.E;
         }
