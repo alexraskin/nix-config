@@ -9,6 +9,7 @@
       "/System/Applications/Messages.app"
       "/Applications/1Password.app"
       "/Users/alex/Applications/Visual Studio Code.app"
+      "/Applications/Muse.app"
       # "/Applications/Ghostty.app"
       "/Applications/Rex Beta.app"
       "/System/Applications/Mail.app"
