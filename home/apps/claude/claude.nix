@@ -85,6 +85,10 @@ in
         ''exec ${pkgs.nodejs}/bin/node "$(readlink -f "$(command -v icon-composer-mcp)")"''
       ];
     };
+    servers.blender = {
+      command = "${pkgs.uv}/bin/uvx";
+      args = [ "blender-mcp" ];
+    };
   };
 
   programs.claude-code = {

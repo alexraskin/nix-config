@@ -40,6 +40,7 @@
 
       # media
       "spotify"
+      "blender"
 
       # fonts
       "font-b612"
