@@ -117,7 +117,7 @@ let
         }
         {
           app_id = "com.apple.mail";
-          workspace = ws."4";
+          workspace = ws."5";
         }
         {
           app_id = "com.meta.endo";
