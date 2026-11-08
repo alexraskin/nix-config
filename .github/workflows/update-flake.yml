@@ -1,0 +1,101 @@
+name: update flake
+
+on:
+  schedule:
+    - cron: '0 2 * * 0' # Sunday; NixOS hosts auto-upgrade Monday 04:00 local
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  update:
+    name: update lock
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.update.outputs.changed }}
+      nixos: ${{ steps.hosts.outputs.nixos }}
+      darwin: ${{ steps.hosts.outputs.darwin }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+
+      - id: update
+        run: |
+          nix flake update
+          if git diff --quiet flake.lock; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - id: hosts
+        run: |
+          # shellcheck disable=SC2016  # a nix expression, ${n} must stay literal
+          names='cfgs: map (n: { host = n; system = cfgs.${n}.pkgs.stdenv.hostPlatform.system; }) (builtins.attrNames cfgs)'
+          {
+            echo "darwin=$(nix eval --json .#darwinConfigurations --apply "$names")"
+            echo "nixos=$(nix eval --json .#nixosConfigurations --apply "$names")"
+          } >> "$GITHUB_OUTPUT"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: flake-lock
+          path: flake.lock
+
+  eval-darwin:
+    name: eval ${{ matrix.host }}
+    needs: update
+    if: needs.update.outputs.changed == 'true' && needs.update.outputs.darwin != '[]'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include: ${{ fromJSON(needs.update.outputs.darwin) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: flake-lock
+      - uses: DeterminateSystems/nix-installer-action@main
+      - run: nix eval --raw .#darwinConfigurations.${{ matrix.host }}.config.system.build.toplevel.drvPath
+
+  build-nixos:
+    name: build ${{ matrix.host }}
+    needs: update
+    if: needs.update.outputs.changed == 'true'
+    runs-on: ${{ matrix.system == 'aarch64-linux' && 'ubuntu-24.04-arm' || 'ubuntu-latest' }}
+    strategy:
+      matrix:
+        include: ${{ fromJSON(needs.update.outputs.nixos) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: flake-lock
+      - uses: DeterminateSystems/nix-installer-action@main
+      - run: nix build --print-build-logs .#nixosConfigurations.${{ matrix.host }}.config.system.build.toplevel
+
+  commit:
+    name: commit lock
+    needs: [update, eval-darwin, build-nixos]
+    if: >-
+      always() && needs.update.outputs.changed == 'true'
+      && needs.build-nixos.result == 'success'
+      && contains(fromJSON('["success","skipped"]'), needs.eval-darwin.result)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: flake-lock
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "update flake.lock"
+          git push
