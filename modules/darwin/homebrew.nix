@@ -51,6 +51,7 @@
       "wifiman"
       "obsidian"
       "macusb"
+      "easydict"
     ];
     brews = [
       "mas"
