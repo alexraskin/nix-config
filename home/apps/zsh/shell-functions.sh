@@ -87,7 +87,7 @@ gh-pr() {
 # Upload a file to S3 and print a presigned URL.
 awsupload() {
   if [[ -z "$1" ]]; then
-    echo "usage: awsupload <file> [expiry: 1h, 2h, ..., 1d, ..., 7d]" >&2
+    echo "usage: awsupload <file> [expiry: 1h, 2h, ..., 12h]" >&2
     return 1
   fi
 
@@ -98,20 +98,17 @@ awsupload() {
 
   local EXPIRY="${2:-1h}"
   local EXPIRY_SECONDS
-  if [[ "$EXPIRY" =~ '^([0-9]+)([hd])$' ]]; then
-    local num="${match[1]}" unit="${match[2]}"
-    if [[ "$unit" == "h" ]]; then
-      EXPIRY_SECONDS=$(( num * 3600 ))
-    else
-      # SigV4 presigned URLs cap out at 7 days.
-      if (( num < 1 || num > 7 )); then
-        echo "awsupload: days must be 1–7" >&2
-        return 1
-      fi
-      EXPIRY_SECONDS=$(( num * 86400 ))
+  if [[ "$EXPIRY" =~ '^([0-9]+)h$' ]]; then
+    local num="${match[1]}"
+    # A presigned URL dies with the SSO session that signed it, which lasts at
+    # most 12h, so that's the ceiling regardless of what we ask for.
+    if (( num < 1 || num > 12 )); then
+      echo "awsupload: hours must be 1–12" >&2
+      return 1
     fi
+    EXPIRY_SECONDS=$(( num * 3600 ))
   else
-    echo "awsupload: invalid expiry '$EXPIRY' (use e.g. 1h, 2h, 1d, 7d)" >&2
+    echo "awsupload: invalid expiry '$EXPIRY' (use e.g. 1h, 2h, 12h)" >&2
     return 1
   fi
 
@@ -124,18 +121,8 @@ awsupload() {
   local -x AWS_DEFAULT_REGION=us-west-2
   local REGION="$AWS_DEFAULT_REGION"
 
-  local AGE_IDENTITY="op://Private/Main 1password SSH Key/private key"
-  local SECRETS="$HOME/nix-config/secrets/aws.env.age"
-
-  if [[ -z "$AWS_ACCESS_KEY_ID" ]]; then
-    local -x AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY
-    local creds
-    if [[ ! -f "$SECRETS" ]]; then
-      echo "awsupload: missing $SECRETS" >&2
-      return 1
-    fi
-    creds=$(op read "$AGE_IDENTITY" | age -d -i /dev/stdin "$SECRETS") || return 1
-    eval "$creds"
+  if ! command aws sts get-caller-identity >/dev/null 2>&1; then
+    command aws sso login || return 1
   fi
 
   local FILENAME=$(basename "$1")
