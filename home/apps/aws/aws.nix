@@ -14,7 +14,7 @@
         sso_session = "axr";
         sso_account_id = "088966585880";
         sso_role_name = "AdministratorAccess";
-        region = "us-west-2";
+        region = "us-east-1";
         output = "json";
       };
     };
