@@ -78,6 +78,26 @@
         "type": "github"
       }
     },
+    "figurine-shell": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1795205196,
+        "narHash": "sha256-iqbu23L0nMGwvdaJl7NZ57NIvEuM66wRzJ2N52w+WgM=",
+        "owner": "alexraskin",
+        "repo": "figurine-shell",
+        "rev": "a68398327d2b707b014e8254e4c2dd5cdc3f5a91",
+        "type": "github"
+      },
+      "original": {
+        "owner": "alexraskin",
+        "repo": "figurine-shell",
+        "type": "github"
+      }
+    },
     "flake-utils": {
       "inputs": {
         "systems": "systems"
@@ -156,6 +176,7 @@
         "agenix": "agenix",
         "codex-cli-nix": "codex-cli-nix",
         "darwin": "darwin",
+        "figurine-shell": "figurine-shell",
         "home-manager": "home-manager",
         "nix-homebrew": "nix-homebrew",
         "nixpkgs": "nixpkgs"

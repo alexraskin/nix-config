@@ -17,6 +17,9 @@
 
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
+
+    figurine-shell.url = "github:alexraskin/figurine-shell";
+    figurine-shell.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =

@@ -1,4 +1,5 @@
 {
+  inputs,
   pkgs,
   primaryUser,
   hostname,
@@ -8,7 +9,10 @@
   imports = [
     ./auto-upgrade.nix
     ./home-manager.nix
+    inputs.figurine-shell.nixosModules.default
   ];
+
+  programs.figurine.enable = true;
 
   networking.hostName = hostname;
 
