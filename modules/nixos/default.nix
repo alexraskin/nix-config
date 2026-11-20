@@ -9,6 +9,7 @@
   imports = [
     ./auto-upgrade.nix
     ./home-manager.nix
+    ./metrics.nix
     inputs.figurine-shell.nixosModules.default
   ];
 
