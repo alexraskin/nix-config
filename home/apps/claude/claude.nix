@@ -75,19 +75,22 @@ in
 {
   programs.mcp = {
     enable = true;
-    servers.icon-composer = {
-      command = "${pkgs.nodejs}/bin/npx";
-      args = [
-        "-y"
-        "-p"
-        "icon-composer-mcp"
-        "-c"
-        ''exec ${pkgs.nodejs}/bin/node "$(readlink -f "$(command -v icon-composer-mcp)")"''
-      ];
-    };
-    servers.blender = {
-      command = "${pkgs.uv}/bin/uvx";
-      args = [ "blender-mcp" ];
+    # both drive local macOS apps (Icon Composer, Blender)
+    servers = lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
+      icon-composer = {
+        command = "${pkgs.nodejs}/bin/npx";
+        args = [
+          "-y"
+          "-p"
+          "icon-composer-mcp"
+          "-c"
+          ''exec ${pkgs.nodejs}/bin/node "$(readlink -f "$(command -v icon-composer-mcp)")"''
+        ];
+      };
+      blender = {
+        command = "${pkgs.uv}/bin/uvx";
+        args = [ "blender-mcp" ];
+      };
     };
   };
 
@@ -105,7 +108,9 @@ in
       nativeBuildInputs = [ pkgs.makeWrapper ];
       postBuild = ''
         wrapProgram $out/bin/claude \
-          --set-default NODE_EXTRA_CA_CERTS /etc/ssl/cert.pem
+          --set-default NODE_EXTRA_CA_CERTS ${
+            if pkgs.stdenv.hostPlatform.isDarwin then "/etc/ssl/cert.pem" else "/etc/ssl/certs/ca-certificates.crt"
+          }
       '';
     };
 
