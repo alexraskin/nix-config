@@ -20,6 +20,9 @@
 
     figurine-shell.url = "github:alexraskin/figurine-shell";
     figurine-shell.inputs.nixpkgs.follows = "nixpkgs";
+
+    rex.url = "https://pkgs.superlogical.com/rex/nix/snapshot.tar.gz";
+    rex.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -50,6 +53,12 @@
           system = "x86_64-linux";
           user = "alex";
           hostname = "hhbox";
+        };
+
+        morpheus = mkNixos "morpheus" {
+          system = "x86_64-linux";
+          user = "alex";
+          hostname = "morpheus";
         };
 
         nixcosmo = mkNixos "nixcosmo" {
