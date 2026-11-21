@@ -7,6 +7,7 @@
     ./plex.nix
     ./net-check.nix
     ./rex.nix
+    ./dev.nix
   ];
 
   # installed with 26.11; modules/nixos defaults to 25.05
