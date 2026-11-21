@@ -94,6 +94,12 @@ in
 
   systemd.services.docker-plex.unitConfig.RequiresMountsFor = [ "/mnt/media/Media" ];
 
+  # the exporter exits if plex isn't answering yet; keep retrying until it is
+  systemd.services.docker-prom-plex-exporter = {
+    unitConfig.StartLimitIntervalSec = 0;
+    serviceConfig.RestartSec = "15s";
+  };
+
   # https://morpheus.tail649c4.ts.net -> plex, with tailscale's own cert
   systemd.services.tailscale-serve-plex = {
     after = [ "tailscaled.service" ];

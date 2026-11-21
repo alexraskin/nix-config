@@ -1,3 +1,4 @@
+{ config, ... }:
 let
   # Synology, reached over the tailnet; its NFS rules allow morpheus's tailnet IP (100.73.219.120)
   nas = "100.109.167.97";
@@ -9,14 +10,28 @@ let
       "rsize=8192"
       "_netdev"
       "nofail"
-      # the NAS is only reachable once tailscaled is up; mount on first access
+      # the NAS is only reachable once the tailnet is up, which is later than
+      # tailscaled.service starting; mount on first access after that
       "x-systemd.automount"
-      "x-systemd.after=tailscaled.service"
-      "x-systemd.mount-timeout=60"
+      "x-systemd.requires=tailscale-online.service"
+      "x-systemd.after=tailscale-online.service"
+      "x-systemd.mount-timeout=120"
     ];
   };
 in
 {
+  systemd.services.tailscale-online = {
+    description = "Wait for the tailnet to be up";
+    after = [ "tailscaled.service" ];
+    requires = [ "tailscaled.service" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStart = "${config.services.tailscale.package}/bin/tailscale wait";
+      TimeoutStartSec = "5min";
+    };
+  };
+
   boot.supportedFilesystems = [ "nfs" ];
 
   fileSystems."/mnt/media" = nfs "media";
