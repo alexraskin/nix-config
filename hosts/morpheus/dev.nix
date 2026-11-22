@@ -1,5 +1,8 @@
 { lib, primaryUser, ... }:
 {
+  # serial ports (/dev/ttyUSB*) for flashing ESP32 boards over USB
+  users.users.${primaryUser}.extraGroups = [ "dialout" ];
+
   home-manager.users.${primaryUser} = {
     # headless login: aws sso login --use-device-code
     imports = [
