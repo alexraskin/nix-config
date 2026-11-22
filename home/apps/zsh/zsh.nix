@@ -18,7 +18,7 @@ let
 
   commonAliases = {
     c = "claude";
-    k = "kiro-cli";
+    kr = "kiro-cli";
 
     nix-switch = "sudo ${rebuild} switch --flake ${flake}";
     hm-switch = "\"$(nix build --no-link --print-out-paths '${hmPackage}')/activate\"";
