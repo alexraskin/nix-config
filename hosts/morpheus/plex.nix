@@ -53,7 +53,6 @@ in
 {
   imports = [ inputs.agenix.nixosModules.default ];
 
-  # PLEX_TOKEN (exporter) and DISCORD_WEBHOOK (backup notifications)
   age.secrets.plex-env.file = ../../secrets/morpheus-plex.env.age;
 
   systemd.tmpfiles.rules = [
@@ -83,7 +82,6 @@ in
 
     prom-plex-exporter = {
       image = "ghcr.io/jsclayton/prometheus-plex-exporter:latest";
-      # scraped by infrastructure's apps/base/monitoring at 10.0.200.87:9001
       ports = [ "9001:9000" ];
       environmentFiles = [ envFile ];
       environment.PLEX_SERVER = "http://host.docker.internal:32400";
@@ -94,16 +92,14 @@ in
 
   systemd.services.docker-plex.unitConfig.RequiresMountsFor = [ "/mnt/media/Media" ];
 
-  # the exporter exits if plex isn't answering yet; keep retrying until it is
   systemd.services.docker-prom-plex-exporter = {
     unitConfig.StartLimitIntervalSec = 0;
     serviceConfig.RestartSec = "15s";
   };
 
-  # https://morpheus.tail649c4.ts.net -> plex, with tailscale's own cert
   systemd.services.tailscale-serve-plex = {
-    after = [ "tailscaled.service" ];
-    wants = [ "tailscaled.service" ];
+    after = [ "tailscale-online.service" ];
+    requires = [ "tailscale-online.service" ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       Type = "oneshot";

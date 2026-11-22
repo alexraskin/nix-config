@@ -15,9 +15,21 @@ in
     "d /var/lib/adsb/graphs1090 0755 root root -"
   ];
 
-  systemd.services.tailscale-serve-adsb = {
+  systemd.services.tailscale-online = {
+    description = "Wait for the tailnet to be up";
     after = [ "tailscaled.service" ];
-    wants = [ "tailscaled.service" ];
+    requires = [ "tailscaled.service" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStart = "${config.services.tailscale.package}/bin/tailscale wait";
+      TimeoutStartSec = "5min";
+    };
+  };
+
+  systemd.services.tailscale-serve-adsb = {
+    after = [ "tailscale-online.service" ];
+    requires = [ "tailscale-online.service" ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       Type = "oneshot";
