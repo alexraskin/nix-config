@@ -17,8 +17,6 @@ let
   ];
 in
 {
-  home.packages = [ pkgs.kiro-cli ];
-
   programs.vscode = {
     enable = true;
     package = pkgs.vscode;

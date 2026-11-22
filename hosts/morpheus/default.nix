@@ -19,12 +19,9 @@
 
   time.timeZone = "America/Phoenix";
   networking.networkmanager.enable = true;
-  # same MAC as under Debian, so the DHCP reservation (10.0.200.87) carries over;
-  # infrastructure's gatus and prometheus scrape that address
   networking.interfaces.enp86s0.wakeOnLan.enable = true;
   services.journald.settings.Journal.SystemMaxUse = "500M";
 
-  # keep the Debian uid so files restored from the old disk keep their owner
   users.users.${primaryUser} = {
     uid = 1000;
     openssh.authorizedKeys.keys = [
