@@ -1,23 +1,32 @@
 { pkgs, ... }:
 let
-  swift-vscode = pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+  marketplaceExtensions = pkgs.vscode-utils.extensionsFromVscodeMarketplace [
     {
       name = "swift-vscode";
       publisher = "swiftlang";
       version = "2.16.7";
       sha256 = "1krzmz2s2l4bwpvp4msjf6pwqfha11a21bpwq942lhx3zbgvh0d6";
     }
+    {
+      name = "kiro-for-vscode";
+      publisher = "kiro";
+      version = "1.5.0";
+      arch = "darwin-arm64";
+      sha256 = "1ahj2akb2my8i8aavk0b302fss4ik0q0y7k7w96g5ippc1qbyjg6";
+    }
   ];
 in
 {
+  home.packages = [ pkgs.kiro-cli ];
+
   programs.vscode = {
     enable = true;
     package = pkgs.vscode;
 
-    mutableExtensionsDir = false;
+    mutableExtensionsDir = true;
     profiles.default = {
       enableUpdateCheck = true;
-      enableExtensionUpdateCheck = false;
+      enableExtensionUpdateCheck = true;
 
       extensions =
         (with pkgs.vscode-extensions; [
@@ -40,9 +49,10 @@ in
           ms-vscode.cmake-tools
           ms-vscode-remote.remote-containers
         ])
-        ++ swift-vscode;
+        ++ marketplaceExtensions;
 
       userSettings = {
+        "extensions.autoUpdate" = true;
         "workbench.colorTheme" = "Catppuccin Mocha";
         "chat.disableAIFeatures" = true;
         "chat.commandCenter.enabled" = false;
