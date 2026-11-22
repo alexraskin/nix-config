@@ -4,9 +4,9 @@
 
 My Mac and Linux boxes, all set up from one flake: packages, apps, macOS settings, dotfiles.
 
-![mac-screenshot](/images/mac.png "mac-screenshot")
-![hhbox-screenshot](/images/hhbox.png "hhbox-screenshot")
-![nixcosmo-screenshot](/images/nixcosmo.png "nixcosmo-screenshot")
+![mac-screenshot](./.github/assets/mac.png "mac-screenshot")
+![hhbox-screenshot](./.github/assets/hhbox.png "hhbox-screenshot")
+![nixcosmo-screenshot](./.github/assets/nixcosmo.png "nixcosmo-screenshot")
 
 ## Machines
 
