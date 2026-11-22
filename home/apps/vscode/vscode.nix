@@ -50,7 +50,7 @@ in
         ++ marketplaceExtensions;
 
       userSettings = {
-        "extensions.autoUpdate" = true;
+        "extensions.autoUpdate" = "on";
         "workbench.colorTheme" = "Catppuccin Mocha";
         "chat.disableAIFeatures" = true;
         "chat.commandCenter.enabled" = false;
