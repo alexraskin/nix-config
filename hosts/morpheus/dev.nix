@@ -1,4 +1,9 @@
-{ lib, pkgs, primaryUser, ... }:
+{
+  lib,
+  pkgs,
+  primaryUser,
+  ...
+}:
 {
   # serial ports (/dev/ttyUSB*) for flashing ESP32 boards over USB
   users.users.${primaryUser}.extraGroups = [ "dialout" ];

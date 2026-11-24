@@ -109,7 +109,10 @@ in
       postBuild = ''
         wrapProgram $out/bin/claude \
           --set-default NODE_EXTRA_CA_CERTS ${
-            if pkgs.stdenv.hostPlatform.isDarwin then "/etc/ssl/cert.pem" else "/etc/ssl/certs/ca-certificates.crt"
+            if pkgs.stdenv.hostPlatform.isDarwin then
+              "/etc/ssl/cert.pem"
+            else
+              "/etc/ssl/certs/ca-certificates.crt"
           }
       '';
     };
