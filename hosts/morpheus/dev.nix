@@ -1,4 +1,4 @@
-{ lib, primaryUser, ... }:
+{ lib, pkgs, primaryUser, ... }:
 {
   # serial ports (/dev/ttyUSB*) for flashing ESP32 boards over USB
   users.users.${primaryUser}.extraGroups = [ "dialout" ];
@@ -9,6 +9,7 @@
       ../../home/apps/aws/aws.nix
       ../../home/apps/claude/claude.nix
       ../../home/apps/kiro/kiro.nix
+      ../../home/apps/gnupg/gnupg.nix
     ];
 
     programs.git.settings = {
@@ -17,6 +18,16 @@
       commit.gpgsign = lib.mkForce true;
       tag.gpgsign = true;
     };
+
+    # Tailscale SSH sessions skip pam_systemd, so XDG_RUNTIME_DIR is unset and
+    # clients like gpg can't find the agent socket under /run/user/$UID.
+    programs.zsh.envExtra = ''
+      export XDG_RUNTIME_DIR="''${XDG_RUNTIME_DIR:-/run/user/$UID}"
+    '';
+
+    # no desktop app here, so op can't use app integration; sign in with
+    # `op account add` once, then `eval $(op signin)` per shell
+    home.packages = [ pkgs._1password-cli ];
 
     programs.gh = {
       enable = true;

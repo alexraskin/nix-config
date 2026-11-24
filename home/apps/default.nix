@@ -7,6 +7,7 @@
     ./codex/codex.nix
     ./ghostty/ghostty.nix
     ./git/git.nix
+    ./gnupg/gnupg.nix
     ./kiro/kiro.nix
     ./kubernetes/kubernetes.nix
     ./mise/mise.nix
