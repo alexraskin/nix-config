@@ -4,15 +4,14 @@
 
 My Mac and Linux boxes, all set up from one flake: packages, apps, macOS settings, dotfiles.
 
-![mac-screenshot](./.github/assets/mac.png "mac-screenshot")
-![hhbox-screenshot](./.github/assets/hhbox.png "hhbox-screenshot")
-![nixcosmo-screenshot](./.github/assets/nixcosmo.png "nixcosmo-screenshot")
+<img src="./.github/assets/mac.png" alt="mac-screenshot" width="600">
 
 ## Machines
 
 - `kappa` — MacBook Air
 - `hhbox` — NixOS box running Plex and Syncthing
-- `nixcosmo` — NixOS box, Tailscale exit node
+- `morpheus` — NixOS box running Plex, Docker, and dev tools
+- `nixcosmo` — NixOS ADS-B receiver box, also a Tailscale exit node
 
 ## What's where
 
