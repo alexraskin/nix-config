@@ -28,7 +28,6 @@
 
     casks = [
       "shottr"
-      "icon-composer"
 
       # dev
       "ghostty"
@@ -40,18 +39,17 @@
 
       # media
       "spotify"
-      "blender"
 
       # fonts
       "font-b612"
       "font-iosevka"
+      "font-fira-mono-nerd-font"
 
       "1password"
       "1password-cli"
       "wifiman"
       "obsidian"
       "macusb"
-      "easydict"
     ];
     brews = [
       "mas"

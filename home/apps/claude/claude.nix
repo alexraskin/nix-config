@@ -73,27 +73,6 @@ let
   '';
 in
 {
-  programs.mcp = {
-    enable = true;
-    # both drive local macOS apps (Icon Composer, Blender)
-    servers = lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
-      icon-composer = {
-        command = "${pkgs.nodejs}/bin/npx";
-        args = [
-          "-y"
-          "-p"
-          "icon-composer-mcp"
-          "-c"
-          ''exec ${pkgs.nodejs}/bin/node "$(readlink -f "$(command -v icon-composer-mcp)")"''
-        ];
-      };
-      blender = {
-        command = "${pkgs.uv}/bin/uvx";
-        args = [ "blender-mcp" ];
-      };
-    };
-  };
-
   programs.claude-code = {
     enable = true;
 
@@ -116,9 +95,6 @@ in
           }
       '';
     };
-
-    # Pulls servers from programs.mcp.servers into Claude Code's MCP config.
-    enableMcpIntegration = true;
 
     settings = {
       model = "opus";
