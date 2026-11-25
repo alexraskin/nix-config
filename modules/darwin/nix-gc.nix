@@ -5,7 +5,7 @@
   ...
 }:
 let
-  keep = 14;
+  keep = 5;
 
   nix-env = "${config.nix.package}/bin/nix-env";
 
@@ -23,6 +23,8 @@ let
   '';
 in
 {
+  nix.optimise.automatic = true;
+
   launchd.daemons.nix-trim-generations = {
     command = "${trim}";
     serviceConfig = {
