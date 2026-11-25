@@ -2,13 +2,13 @@
 # Bootstrap a fresh Mac. Everything except git, nix, and this repo is declared
 # in the flake — packages, Homebrew itself, casks, macOS defaults, dotfiles.
 #
-#   ./install.sh [host]   host defaults to "mba"; it must match an attribute
+#   ./install.sh [host]   host defaults to "kappa"; it must match an attribute
 #                         of darwinConfigurations in flake.nix.
 set -euo pipefail
 
 REPO="git@github.com:alexraskin/nix-config.git"
 DIR="$HOME/nix-config"
-HOST="${1:-mba}"
+HOST="${1:-kappa}"
 FLAKE="path:$DIR#$HOST"
 NIX="/nix/var/nix/profiles/default/bin/nix"
 

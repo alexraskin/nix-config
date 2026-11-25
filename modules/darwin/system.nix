@@ -10,6 +10,7 @@
   networking = {
     computerName = hostname;
     hostName = hostname;
+    localHostName = hostname;
   };
 
   system.primaryUser = primaryUser;

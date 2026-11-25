@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   primaryUser,
   ...
 }:
@@ -29,30 +28,13 @@
       username = primaryUser;
       stateVersion = "25.05";
 
-      # macOS-only GUI apps; home-manager symlinks the .app bundles into
-      # ~/Applications/Home Manager Apps. packages.nix is shared with the
-      # headless NixOS hosts, so these can't live there.
-      packages = with pkgs; [
-        plezy
-      ];
       sessionVariables = {
         # shared environment variables
       };
 
       file = {
         ".hushlogin".text = "";
-
-        # hosts/mba/dock.nix pins this path, same as Visual Studio Code.
-        # linkApps only gives us ~/Applications/Home Manager Apps/Plezy.app.
-        "Applications/Plezy.app".source = "${pkgs.plezy}/Applications/Plezy.app";
       };
     };
-
-    home.activation.registerDarwinApps = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
-      lsregister=/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister
-      if [ -x "$lsregister" ]; then
-        run "$lsregister" -f "$HOME/Applications/Plezy.app"
-      fi
-    '';
   };
 }

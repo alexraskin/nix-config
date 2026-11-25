@@ -10,7 +10,7 @@ My Mac and Linux boxes, all set up from one flake: packages, apps, macOS setting
 
 ## Machines
 
-- `mba` — MacBook Air
+- `kappa` — MacBook Air
 - `hhbox` — NixOS box running Plex and Syncthing
 - `nixcosmo` — NixOS box, Tailscale exit node
 

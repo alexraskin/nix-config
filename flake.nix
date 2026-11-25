@@ -41,10 +41,10 @@
     in
     {
       darwinConfigurations = {
-        mba = mkDarwin "mba" {
+        kappa = mkDarwin "kappa" {
           system = "aarch64-darwin";
           user = "alex";
-          hostname = "alexs-mba";
+          hostname = "kappa";
         };
       };
 
