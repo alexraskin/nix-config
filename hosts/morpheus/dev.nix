@@ -13,6 +13,7 @@
     imports = [
       ../../home/apps/aws/aws.nix
       ../../home/apps/claude/claude.nix
+      ../../home/apps/codex/codex.nix
       ../../home/apps/kiro/kiro.nix
       ../../home/apps/gnupg/gnupg.nix
     ];
