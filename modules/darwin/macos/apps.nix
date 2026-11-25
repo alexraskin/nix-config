@@ -1,9 +1,22 @@
-{ ... }:
+{ primaryUser, ... }:
 # Per-app settings for the built-in apps, plus screenshots.
+let
+  screencapDir = "/Users/${primaryUser}/Documents/Screencaps";
+in
 {
+  # screencapture.location only sets the preference; macOS falls back to the
+  # Desktop if the folder doesn't exist, so create it.
+  home-manager.users.${primaryUser} =
+    { lib, ... }:
+    {
+      home.activation.createScreencapDir = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        run mkdir -p "${screencapDir}"
+      '';
+    };
+
   system.defaults = {
     screencapture = {
-      location = "~/Documents/Screencaps";
+      location = screencapDir;
       type = "png";
 
       # No fake drop shadow baked into window captures.
