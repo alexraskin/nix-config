@@ -84,7 +84,7 @@ in
         BEASTPORT = "30005";
         BIND_INTERFACE = "0.0.0.0";
       };
-      extraOptions = [ "--network=host" ];
+      extraOptions = [ "--network=host" "--dns=1.1.1.1" "--dns=1.0.0.1" ];
     };
   };
 }
