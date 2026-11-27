@@ -39,6 +39,7 @@ let
     environment = {
       PLEX_DATA_DIR = dataDir;
       PLEX_UNIT = "docker-plex.service";
+      EXPORTER_UNIT = "docker-prom-plex-exporter.service";
       BACKUP_DIR = "/mnt/plex_backup";
       BACKUP_LOG = "/mnt/plex_backup/${log}";
     };

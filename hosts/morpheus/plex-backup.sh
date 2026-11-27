@@ -1,5 +1,5 @@
 # Stops Plex, tars its library (minus Cache) to the NAS, starts it again.
-# Env: PLEX_DATA_DIR PLEX_UNIT BACKUP_DIR BACKUP_LOG DISCORD_WEBHOOK
+# Env: PLEX_DATA_DIR PLEX_UNIT EXPORTER_UNIT BACKUP_DIR BACKUP_LOG DISCORD_WEBHOOK
 
 log() {
   echo "$(date '+%Y-%b-%d at %k:%M:%S') :: $*" | tee -a "$BACKUP_LOG"
@@ -18,10 +18,24 @@ send_discord() {
         }]}" >>"$BACKUP_LOG" 2>&1 || true
 }
 
+# Stopping Plex also stops the exporter (it Requires Plex), so every
+# restart of Plex must bring the exporter back too.
+start_plex_and_exporter() {
+  systemctl start "$PLEX_UNIT" || return 1
+  # Starting the Plex container returns before the server listens. Wait
+  # for it, otherwise the exporter exits on connection refused and only
+  # recovers through its 15s systemd restart.
+  for _ in $(seq 1 30); do
+    curl -fsS -m 5 http://127.0.0.1:32400/identity >/dev/null 2>&1 && break
+    sleep 2
+  done
+  systemctl start "${EXPORTER_UNIT:-docker-prom-plex-exporter.service}" || return 1
+}
+
 fail() {
   log "ERROR: $1"
   send_discord "Failed" "$1" 15548997
-  systemctl start "$PLEX_UNIT" >>"$BACKUP_LOG" 2>&1 || true
+  start_plex_and_exporter >>"$BACKUP_LOG" 2>&1 || true
   exit 1
 }
 
@@ -71,7 +85,7 @@ tar cz --exclude='Cache' -f "$backup_file" . >>"$BACKUP_LOG" 2>&1 || fail "Tar b
 backup_size=$(du -h "$backup_file" | cut -f1)
 
 log "Starting Plex container."
-systemctl start "$PLEX_UNIT" >>"$BACKUP_LOG" 2>&1 || fail "Failed to start Plex container"
+start_plex_and_exporter >>"$BACKUP_LOG" 2>&1 || fail "Failed to start Plex container"
 
 log "Backup Completed."
 send_discord "Success" "Backup completed successfully\\nSize: $backup_size" 5763719
